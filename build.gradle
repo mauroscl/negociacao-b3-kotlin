@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '6.0.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.8.20'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'br.com.mauroscl.Main'
+        )
+    }
+}
+
+group 'br.com.mauroscl'
+version '1.4.0'
+
+if (project.hasProperty('projVersion')) {
+    project.version = project.projVersion
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.apache.pdfbox:pdfbox:2.0.28'
+    testImplementation('org.junit.jupiter:junit-jupiter:5.6.2')
+    implementation 'com.willowtreeapps.assertk:assertk:0.25'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+}
+
+test {
+    useJUnitPlatform()
+}
+kotlin {
+    jvmToolchain(17)
+}

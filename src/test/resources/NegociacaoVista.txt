@@ -1,0 +1,55 @@
+NOTA DE NEGOCIAÇÃO
+Nr. nota Folha Data pregão
+683103 1 02/03/2020
+Rico Investimentos - Grupo XP
+Av. Presidente Juscelino Kubitschek - Torre Sul, 1909 - 25º ANDAR VILA OLIMPIA 4543-907 SÃO PAULO - SP
+Tel. 3003-5465   Fax: (55 11) 4007-2465
+Internet: www.rico.com.vc SAC: 0800-774-0402 e-mail: atendimento@rico.com.vc
+C.N.P.J: 02.332.886/0016-82 Carta Patente:
+Ouvidoria: Tel. 08007740402 e-mail ouvidoria:
+Cliente C.P.F./C.N.P.J/C.V.M./C.O.B.
+0157950 MAURO SERGIO DA COSTA LEAL 968.943.000-97
+AV DOM CLAUDIO JOSE GONCALVES, 140 - AP1503-T5 VILA Tel. (051) 8428-2610 Código cliente Assessor
+IPIRANGA 386-7   0157950 5033
+Participante destino do repasse 91370-170 PORTO ALEGRE - RSCliente Valor Custodiante C.I
+- 0 N
+Banco Agência Conta corrente Acionista Administrador Complemento nome P. Vinc
+237 0326 0075588 N
+Negócios realizados
+Q Negociação C/V Tipo mercado Prazo Especificação do título Obs. (*) Quantidade Preço / Ajuste Valor Operação / Ajuste D/C
+1-BOVESPA C VISTA CPFL ENERGIA          ON NM 100 36,82 3.682,00 D
+1-BOVESPA C VISTA CPFL ENERGIA          ON NM 500 36,82 18.410,00 D
+1-BOVESPA C VISTA LOJAS RENNER          ON NM # 100 53,74 5.374,00 D
+1-BOVESPA C VISTA LOJAS RENNER          ON NM 100 53,74 5.374,00 D
+1-BOVESPA C VISTA LOJAS RENNER          ON NM 200 53,74 10.748,00 D
+1-BOVESPA C VISTA RAIADROGASIL          ON NM 100 121,68 12.168,00 D
+1-BOVESPA C VISTA RAIADROGASIL          ON NM 100 121,67 12.167,00 D
+Resumo dos Negócios Resumo Financeiro
+Debêntures 0,00 Clearing
+Vendas à vista 0,00 Valor líquido das operações 67.923,00 D
+Compras à vista 67.923,00 Taxa de liquidação 18,67 D
+Opções - compras 0,00 Taxa de Registro 0,00 D
+Opções - vendas 0,00 Total CBLC 67.941,67 D
+Operações à termo 0,00 Bolsa
+Valor das oper. c/ títulos públ. (v. nom.) 0,00 Taxa de termo/opções 0,00 D
+Valor das operações 67.923,00 Taxa A.N.A. 0,00 D
+Emolumentos 2,35 D
+Total Bovespa / Soma 2,35 D
+Especificações diversas Custos Operacionais
+
+Taxa Operacional 23,10 D
+Execução 0,00
+A coluna Q indica liquidação no Agente do Qualificado. Taxa de Custódia 0,00
+Impostos 2,46 D
+I.R.R.F. s/ operações, base R$0,00 0,00
+Outros 0,00 C
+Total Custos / Despesas 25,56 D
+(*) Observações A - Posição futuro T - Liquidação pelo Bruto Líquido para 04/03/2020 67.969,58 D
+Observação: (1) As operações a termo não são computadas no líquido da fatura.
+2 - Corretora ou pessoa vinculada atuou na contra parte. C - Clubes e fundos de Ações I - POP
+# - Negócio direto P - Carteira Própria
+8 - Liquidação Institucional H - Home Broker
+D - Day Trade X - Box
+F - Cobertura Y - Desmanche de Box
+B - Debêntures L - Precatório
+Capitais e regiões metropolitanas: 3003-5465 ou 4007-2465 Demais localidades: 0800-771-5465 SAC: 0800-774-0402 Ouvidoria: 0800 771 5454

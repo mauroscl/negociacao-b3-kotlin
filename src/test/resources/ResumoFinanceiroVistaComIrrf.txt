@@ -1,0 +1,29 @@
+Resumo dos Negócios Resumo Financeiro
+Debêntures 0,00 Clearing
+Vendas à vista 11.121,00 Valor líquido das operações 1.254,00 D
+Compras à vista 12.375,00 Taxa de liquidação 4,69 D
+Opções - compras 0,00 Taxa de Registro 0,00 D
+Opções - vendas 0,00 Total CBLC 1.258,69 D
+Operações à termo 0,00 Bolsa
+Valor das oper. c/ títulos públ. (v. nom.) 0,00 Taxa de termo/opções 0,00 D
+Valor das operações 23.496,00 Taxa A.N.A. 0,00 D
+Emolumentos 0,76 D
+Total Bovespa / Soma 0,76 D
+Especificações diversas Custos Operacionais
+
+Taxa Operacional 15,40 D
+Execução 0,00
+A coluna Q indica liquidação no Agente do Qualificado. Taxa de Custódia 0,00
+Impostos 1,64 D
+I.R.R.F. s/ operações, base R$0,00 0,00
+IRRF Day Trade: Base R$ 1.274,85 Projeção R$ 1,50 Outros 0,00 C
+Total Custos / Despesas 17,04 D
+(*) Observações A - Posição futuro T - Liquidação pelo Bruto Líquido para 13/03/2020 1.276,49 D
+Observação: (1) As operações a termo não são computadas no líquido da fatura.
+2 - Corretora ou pessoa vinculada atuou na contra parte. C - Clubes e fundos de Ações I - POP
+# - Negócio direto P - Carteira Própria
+8 - Liquidação Institucional H - Home Broker
+D - Day Trade X - Box
+F - Cobertura Y - Desmanche de Box
+B - Debêntures L - Precatório
+Capitais e regiões metropolitanas: 3003-5465 ou 4007-2465 Demais localidades: 0800-771-5465 SAC: 0800-774-0402 Ouvidoria: 0800 771 5454

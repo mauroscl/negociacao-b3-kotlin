@@ -1,0 +1,18 @@
+Venda disponível Compra disponível Venda Opções Compra Opções Valor dos negócios
+0,00 0,00 0,00 0,00 1.505,49 | D
+IRRF IRRF Day Trade (proj.) Taxa operacional Taxa registro BM&F Taxas BM&F (emol+f.gar)
+0,02|D 0,30 0,00 0,67 0,37 | D
+ +Outros Custos Impostos Ajuste de posição Ajuste day trade Total de custos operacionais
+ 0,00 0,50 1.505,49 | D 0,00 |   1,04 | D
+Outros IRRF operacional Total Conta Investimento Total Conta Normal Total liquido (#) Total líquido da nota
+0,00 0,00 0,00| 1.505,53 | D 0,00 |   1.507,33 | D
++Custos BM&F, conforme Ofício Circular BM&F 079/2007-DG
+-Exercícios de opções=EXO
+-OZ1=249,72 grs. / OZ2=9,990 grs. / OZ3=0,225 grs.
+@ Corretora ou Pessoa Vinculada atuou na Contra Parte
+* Negocios gerados automaticamente pelo sistema.
+** Valores pagos conforme previsão do Contrato de Transferência de negócios realizados na BMF (Repasse /
+Brokerage), celebrando entre as Corretoras Intermediadoras e a Corretora
+*** Taxa referente à liquidação das operações intermediadas por Terceiros e as operações feitas integralmente
+pela Corretora.
+Capitais e regiões metropolitanas: 3003-5465 ou 4007-2465 Demais localidades: 0800-771-5465 SAC: 0800-774-0402 Ouvidoria: 0800 771 5454
