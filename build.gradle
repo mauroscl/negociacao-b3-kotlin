@@ -1,38 +1,61 @@
 plugins {
-    id 'java'
-    id 'com.github.johnrengelman.shadow' version '6.0.0'
     id 'org.jetbrains.kotlin.jvm' version '1.8.20'
-}
-
-jar {
-    manifest {
-        attributes(
-                'Main-Class': 'br.com.mauroscl.Main'
-        )
-    }
-}
-
-group 'br.com.mauroscl'
-version '1.4.0'
-
-if (project.hasProperty('projVersion')) {
-    project.version = project.projVersion
+    id "org.jetbrains.kotlin.plugin.allopen" version "1.8.20"
+    id 'io.quarkus'
 }
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
+//jar {
+//    manifest {
+//        attributes(
+//                'Main-Class': 'br.com.mauroscl.Main'
+//        )
+//    }
+//}
+
+group 'br.com.mauroscl'
+version '1.4.0'
+
+//if (project.hasProperty('projVersion')) {
+//    project.version = project.projVersion
+//}
+
 dependencies {
+    implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+    implementation 'io.quarkus:quarkus-picocli'
+    implementation 'io.quarkus:quarkus-kotlin'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+    implementation 'io.quarkus:quarkus-arc'
+    testImplementation 'io.quarkus:quarkus-junit5'
     implementation 'org.apache.pdfbox:pdfbox:2.0.28'
-    testImplementation('org.junit.jupiter:junit-jupiter:5.6.2')
+//    testImplementation('org.junit.jupiter:junit-jupiter:5.6.2')
     implementation 'com.willowtreeapps.assertk:assertk:0.25'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+//    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 test {
-    useJUnitPlatform()
+    systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
 }
-kotlin {
-    jvmToolchain(17)
+allOpen {
+    annotation("javax.ws.rs.Path")
+    annotation("javax.enterprise.context.ApplicationScoped")
+    annotation("io.quarkus.test.junit.QuarkusTest")
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_17
+    kotlinOptions.javaParameters = true
+}
+
+compileTestKotlin {
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_17
 }

@@ -1,5 +1,8 @@
 package br.com.mauroscl.parsing
 
+import javax.enterprise.context.ApplicationScoped
+
+@ApplicationScoped
 class IdentificadorMercado {
     fun obterMercado(conteudo: String): Mercado {
         if (conteudo.contains(IDENTIFICADOR_MERCADO_FUTURO)) {

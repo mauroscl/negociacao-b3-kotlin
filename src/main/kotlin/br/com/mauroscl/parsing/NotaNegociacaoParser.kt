@@ -1,6 +1,10 @@
 package br.com.mauroscl.parsing
 
-class NotaNegociacaoParser(private val identificadorMercado: IdentificadorMercado) {
+import javax.inject.Inject;
+import javax.enterprise.context.ApplicationScoped
+
+@ApplicationScoped
+class NotaNegociacaoParser(@Inject private var identificadorMercado: IdentificadorMercado) {
     fun parse(paginas: List<String>): NotaNegociacao {
         val notaNegociacao = NotaNegociacao()
         paginas

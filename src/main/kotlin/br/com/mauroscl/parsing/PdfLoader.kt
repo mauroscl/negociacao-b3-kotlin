@@ -5,8 +5,11 @@ import org.apache.pdfbox.text.PDFTextStripperByArea
 import java.awt.geom.Rectangle2D
 import java.io.File
 import java.io.IOException
+import javax.enterprise.context.ApplicationScoped
+import javax.inject.Inject
 
-class PdfLoader(private val notaNegociacaoParser: NotaNegociacaoParser) {
+@ApplicationScoped
+class PdfLoader(@Inject private var notaNegociacaoParser: NotaNegociacaoParser) {
     fun parseByArea(filePath: String): NotaNegociacao {
         var stripper: PDFTextStripperByArea
         try {
