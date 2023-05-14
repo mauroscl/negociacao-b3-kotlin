@@ -63,7 +63,7 @@ class NegocioMercadoFuturoParser internal constructor() {
         private const val CONTRATO_REGEX = "\\w{3,4}"
         private const val DATA_REGEX = "\\d{2}\\/\\d{2}\\/\\d{4}"
         private const val TIPO_NEGOCIO_REGEX = ".+"
-        private val REGEX = "^(" + COMPRA_VENDA_REGEX + ")\\s" +
+        private const val REGEX = "^(" + COMPRA_VENDA_REGEX + ")\\s" +
                 "(" + CODIGO_ATIVO_REGEX + ")\\s" +
                 "(" + CONTRATO_REGEX + ")\\s" +
                 "@?(" + DATA_REGEX + "\\s)?" +

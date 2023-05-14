@@ -8,6 +8,7 @@ import br.com.mauroscl.parsing.NegocioRealizado.Companion.comValorOperacionalTot
 import br.com.mauroscl.parsing.Pagina.Companion.comResumoFinanceiro
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
+import java.time.LocalDate
 
 internal class PaginaTest {
     @Test
@@ -133,7 +134,7 @@ internal class PaginaTest {
         )
         val pagina = comResumoFinanceiro(Mercado.AVISTA, resumoFinanceiro)
         pagina.adicionarNegocios(listOf(n1, n2, n3, n4, n5))
-        val notaNegociacao = NotaNegociacao()
+        val notaNegociacao = NotaNegociacao(LocalDate.now())
         notaNegociacao.adicionarPagina(pagina)
         notaNegociacao.unificarPaginas()
         val paginaComCustos: Pagina = notaNegociacao.paginas[0]

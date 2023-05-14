@@ -10,9 +10,9 @@ class PaginaMercadoVistaParser(
         val temResumoFinanceiro = !conteudo.contains(IDENTIFICADOR_SEM_RESUMO_FINANCEIRO)
         pagina = if (temResumoFinanceiro) {
             val resumoFinanceiro = resumoFinanceiroMercadoVistaParser.parse(conteudo)
-            Pagina.Companion.comResumoFinanceiro(mercado, resumoFinanceiro)
+            Pagina.comResumoFinanceiro(mercado, resumoFinanceiro)
         } else {
-            Pagina.Companion.semResumoFinanceiro(mercado)
+            Pagina.semResumoFinanceiro(mercado)
         }
         pagina.adicionarNegocios(obterNegociosRealizados(conteudo))
         return pagina

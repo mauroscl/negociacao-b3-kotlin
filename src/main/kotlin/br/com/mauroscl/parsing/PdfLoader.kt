@@ -9,7 +9,7 @@ import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
 
 @ApplicationScoped
-class PdfLoader(@Inject private var notaNegociacaoParser: NotaNegociacaoParser) {
+class PdfLoader(@Inject var notaNegociacaoParser: NotaNegociacaoParser) {
     fun parseByArea(filePath: String): NotaNegociacao {
         var stripper: PDFTextStripperByArea
         try {

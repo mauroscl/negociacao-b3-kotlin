@@ -1,6 +1,8 @@
 package br.com.mauroscl.parsing
 
-class NotaNegociacao internal constructor() {
+import java.time.LocalDate
+
+class NotaNegociacao internal constructor(val data: LocalDate) {
     var paginas: MutableList<Pagina>
 
     init {

@@ -1,22 +1,20 @@
 # Build
 
-Para alterar a versão do arquivo que será gerado alterar a propriedade version no arquivo build.gradle. 
-
-Por exemplo:
-
+Executar o comando
 ```
-version '1.3.0'
+./gradlew build
 ```
+Vai ser gerado os arquivos na pasta build/quarkus-app
 
-Para gerar o fat jar executável rodar o seguinte comando
+Para executar executar o comando
 ```
-gradlew shadowJar
+java -jar build/quarkus-app/quarkus-run.jar <caminho do arquivo> 
 ```
+Exemplo:
+```
+ java -jar build/quarkus-app/quarkus-run.jar ~/negociacao/202204/NOTA_DE_CORRETAGEM_01_04_2022.pdf 
+```
+Você pode copiar os arquivos do build para outra localização.  
+Tem que copiar todos os arquivos da pasta quarkus-app
 
-Caso queira gerar uma versão sem alterar a propriedade version deve ser passado o parâmetro projVersion, como no exemplo a seguir:  
-```
-./gradlew -PprojVersion=1.3.0 shadowJar
-```
-
-Será gerado o arquivo `negociacao-b3-1.3.0-all.jar` no caminho `build/libs`
-
+Talvez precise apenas copiar o arquivo jar gerado na pasta. Isto não foi testado

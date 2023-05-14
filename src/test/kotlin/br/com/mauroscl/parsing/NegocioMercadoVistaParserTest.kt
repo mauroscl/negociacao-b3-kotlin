@@ -3,27 +3,11 @@ package br.com.mauroscl.parsing
 import assertk.assertThat
 import assertk.assertions.isEqualByComparingTo
 import assertk.assertions.isEqualTo
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import java.io.FileInputStream
-import java.io.IOException
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class NegocioMercadoVistaParserTest {
-    private var conteudoNegociacaoMercadoVista: String? = null
-    @BeforeAll
-    fun carregarConteudo() {
-        val classLoader = javaClass.classLoader
-        try {
-            println("carregando conteudo")
-            val file = classLoader.getResource("NegociacaoVista.txt").file
-            val contentInBytes = FileInputStream(file).readAllBytes()
-            conteudoNegociacaoMercadoVista = String(contentInBytes)
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-    }
 
     @Test
     fun deveParsearLinhaSemObservacao() {

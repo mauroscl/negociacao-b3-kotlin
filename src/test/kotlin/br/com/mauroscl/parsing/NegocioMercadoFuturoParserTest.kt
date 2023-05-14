@@ -11,7 +11,6 @@ internal class NegocioMercadoFuturoParserTest {
         val possivelNegocioRealizado =
             parser.parse("C WDO H20 02/03/2020 1 4.498,7000 NORMAL 1.100,00 C 1,00")
 
-
         assertThat(possivelNegocioRealizado)
             .isNotNull()
             .given { negocioRealizado ->

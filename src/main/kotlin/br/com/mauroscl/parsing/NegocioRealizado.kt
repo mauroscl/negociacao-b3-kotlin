@@ -75,12 +75,14 @@ class NegocioRealizado private constructor(
                 .subtract(outrosCustos)
                 .subtract(valorImpostos)
         }
-        if (quantidade.compareTo(0) > 0) {
+        if (quantidade > 0) {
             valorLiquidacaoUnitario = valorLiquidacao.divide(
                 BigDecimal.valueOf(quantidade.toLong()), 10, RoundingMode.HALF_UP
             )
         }
     }
+
+    val quantidadeComSinal get() = if (this.tipo == TipoNegociacao.COMPRA) this.quantidade else - this.quantidade
 
     override fun toString(): String {
         val numberFormat = NumberFormat.getInstance(Locale.forLanguageTag("pt-BR"))

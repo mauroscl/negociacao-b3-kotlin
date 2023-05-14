@@ -9,6 +9,7 @@ import br.com.mauroscl.parsing.Pagina.Companion.comResumoFinanceiro
 import br.com.mauroscl.parsing.Pagina.Companion.semResumoFinanceiro
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
+import java.time.LocalDate
 
 internal class NotaNegociacaoTest {
     @Test
@@ -43,7 +44,7 @@ internal class NotaNegociacaoTest {
             "WINM20", TipoNegociacao.VENDA, PrazoNegociacao.POSICAO, 2, BigDecimal.valueOf(95000)
         )
         paginaFuturo.adicionarNegocios(listOf(n3))
-        val nota = NotaNegociacao()
+        val nota = NotaNegociacao(LocalDate.now())
         nota.adicionarPagina(paginaVistaSemResumoFinanceiro)
         nota.adicionarPagina(paginaVistaComResumoFinanceiro)
         nota.adicionarPagina(paginaFuturo)

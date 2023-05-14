@@ -1,12 +1,21 @@
 package br.com.mauroscl.parsing
 
-import javax.inject.Inject;
+import br.com.mauroscl.infra.LoggerDelegate
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.regex.Pattern
 import javax.enterprise.context.ApplicationScoped
+import javax.inject.Inject
 
 @ApplicationScoped
-class NotaNegociacaoParser(@Inject private var identificadorMercado: IdentificadorMercado) {
+class NotaNegociacaoParser(@Inject var identificadorMercado: IdentificadorMercado) {
+
+    private val pattern = Pattern.compile(regex)
+    private val logger by LoggerDelegate()
     fun parse(paginas: List<String>): NotaNegociacao {
-        val notaNegociacao = NotaNegociacao()
+        val primeiraPagina = paginas.first()
+        val data = parsearData(primeiraPagina)
+        val notaNegociacao = NotaNegociacao(data)
         paginas
             .stream()
             .map { pagina: String -> parsearPagina(pagina) }
@@ -19,18 +28,29 @@ class NotaNegociacaoParser(@Inject private var identificadorMercado: Identificad
         return PAGINA_PARSER_MAP[mercado]!!.parse(pagina)
     }
 
+    private fun parsearData(pagina: String): LocalDate {
+        val matcher = pattern.matcher(pagina)
+        matcher.find()
+        val dataString = matcher.group(1)
+        return LocalDate.parse(dataString, DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+    }
+
+
     companion object {
+        private const val DATA_REGEX = "\\d{2}\\/\\d{2}\\/\\d{4}"
+        private const val regex = "\\d+\\s\\d\\s($DATA_REGEX)"
+
         private val PAGINA_PARSER_MAP = mapOf(
-            Pair( Mercado.AVISTA,
+            Mercado.AVISTA to
             PaginaMercadoVistaParser(
                 ResumoFinanceiroMercadoVistaParser(),
                 NegocioMercadoVistaParser()
-            )),
-            Pair( Mercado.FUTURO,
+            ),
+            Mercado.FUTURO to
             PaginaMercadoFuturoParser(
                 ResumoFinanceiroMercadoFuturoParser(),
                 NegocioMercadoFuturoParser()
-            ))
+            )
         )
     }
 }
