@@ -7,10 +7,8 @@ import assertk.assertions.isZero
 import br.com.mauroscl.parsing.NegocioRealizado
 import br.com.mauroscl.parsing.PrazoNegociacao
 import br.com.mauroscl.parsing.TipoNegociacao
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
-import java.time.LocalDate
 
 class SaldoTest {
 
@@ -32,9 +30,8 @@ class SaldoTest {
         val saldo = Saldo("PETROBRAS", 200, BigDecimal(50))
         val negocioRealizado = NegocioRealizado.comValorOperacionalUnitario("PETROBRAS", TipoNegociacao.VENDA, PrazoNegociacao.POSICAO, 100, BigDecimal(40))
         negocioRealizado.adicionarCustos(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO)
-        val fechamentoPosicao = FechamentoPosicao(LocalDate.now(), PrazoNegociacao.POSICAO, "PETROBRAS", 100, BigDecimal(50), BigDecimal(40))
 
-        saldo.diminuirPosicao(fechamentoPosicao, negocioRealizado)
+        saldo.diminuirPosicao(negocioRealizado)
 
         assertThat(saldo.quantidade).isEqualTo(100)
         assertThat(saldo.precoMedio).isEqualByComparingTo("50")
@@ -45,9 +42,8 @@ class SaldoTest {
         val saldo = Saldo("PETROBRAS", 200, BigDecimal(50))
         val negocioRealizado = NegocioRealizado.comValorOperacionalUnitario("PETROBRAS", TipoNegociacao.VENDA, PrazoNegociacao.POSICAO, 200, BigDecimal(40))
         negocioRealizado.adicionarCustos(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO)
-        val fechamentoPosicao = FechamentoPosicao(LocalDate.now(), PrazoNegociacao.POSICAO, "PETROBRAS", 200, BigDecimal(50), BigDecimal(40))
 
-        saldo.diminuirPosicao(fechamentoPosicao, negocioRealizado)
+        saldo.diminuirPosicao(negocioRealizado)
 
         assertThat(saldo.quantidade).isZero()
         assertThat(saldo.precoMedio).isZero()
@@ -59,9 +55,8 @@ class SaldoTest {
         val saldo = Saldo("PETROBRAS", 200, BigDecimal(50))
         val negocioRealizado = NegocioRealizado.comValorOperacionalUnitario("PETROBRAS", TipoNegociacao.VENDA, PrazoNegociacao.POSICAO, 300, BigDecimal(40))
         negocioRealizado.adicionarCustos(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO)
-        val fechamentoPosicao = FechamentoPosicao(LocalDate.now(), PrazoNegociacao.POSICAO, "PETROBRAS", 200, BigDecimal(50), BigDecimal(40))
 
-        saldo.diminuirPosicao(fechamentoPosicao, negocioRealizado)
+        saldo.diminuirPosicao(negocioRealizado)
 
         assertThat(saldo.quantidade).isEqualTo(-100)
         assertThat(saldo.precoMedio).isEqualByComparingTo("40")

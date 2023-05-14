@@ -25,7 +25,7 @@ internal class SaldoService(
         if (fechamentoPosicao == null) {
             saldo.aumentarPosicao(negocioRealizado)
         } else {
-            saldo.diminuirPosicao(fechamentoPosicao, negocioRealizado)
+            saldo.diminuirPosicao(negocioRealizado)
             fechamentoPosicaoRepository.persist(fechamentoPosicao)
         }
 

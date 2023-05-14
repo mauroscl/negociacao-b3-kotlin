@@ -30,15 +30,13 @@ class Saldo @BsonCreator constructor(
         atualizarValorTotal()
     }
 
-    fun diminuirPosicao(fechamentoPosicao: FechamentoPosicao, negocio: NegocioRealizado) {
-        if (negocio.quantidade > fechamentoPosicao.quantidade) {
-            this.quantidade = negocio.quantidadeComSinal + fechamentoPosicao.quantidade
+    fun diminuirPosicao(negocio: NegocioRealizado) {
+        if (negocio.quantidade > this.quantidade) {
             this.precoMedio = negocio.valorLiquidacaoUnitario
-        } else {
-            this.quantidade -= fechamentoPosicao.quantidade
-            if (this.quantidade == 0) {
-                this.precoMedio = BigDecimal.ZERO
-            }
+        }
+        this.quantidade += negocio.quantidadeComSinal
+        if (this.quantidade == 0) {
+            this.precoMedio = BigDecimal.ZERO
         }
         atualizarValorTotal()
     }
