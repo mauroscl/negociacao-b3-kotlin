@@ -1,9 +1,7 @@
 package br.com.mauroscl.model
 
 import assertk.assertThat
-import assertk.assertions.hasSize
-import assertk.assertions.isEqualByComparingTo
-import assertk.assertions.isEqualTo
+import assertk.assertions.*
 import br.com.mauroscl.parsing.NegocioRealizado
 import br.com.mauroscl.parsing.PrazoNegociacao
 import br.com.mauroscl.parsing.TipoNegociacao
@@ -12,6 +10,106 @@ import java.math.BigDecimal
 import java.time.LocalDate
 
 class FechamentoPosicaoServiceTest {
+
+    @Test
+    fun `nao deve fechar posicao quando saldo estiver zerado`() {
+        val saldo = Saldo("PETROBRAS", 0, BigDecimal.ZERO)
+        val negocioRealizado = NegocioRealizado.comValorOperacionalTotal("PETROBRAS", TipoNegociacao.COMPRA, PrazoNegociacao.POSICAO, 1, BigDecimal(50))
+
+        val fechamentoPosicao = FechamentoPosicaoService.avaliar(LocalDate.now(), negocioRealizado, saldo)
+
+        assertThat(fechamentoPosicao).isNull()
+    }
+
+    @Test
+    fun `nao deve fechar posicao quando saldo for positivo e operacao for compra`() {
+        val saldo = Saldo("PETROBRAS", 100, BigDecimal(50))
+        val negocioRealizado = NegocioRealizado.comValorOperacionalTotal("PETROBRAS", TipoNegociacao.COMPRA, PrazoNegociacao.POSICAO, 100, BigDecimal(50))
+
+        val fechamentoPosicao = FechamentoPosicaoService.avaliar(LocalDate.now(), negocioRealizado, saldo)
+
+        assertThat(fechamentoPosicao).isNull()
+    }
+
+    @Test
+    fun `nao deve fechar posicao quando saldo for negativo e operacao for venda`() {
+        val saldo = Saldo("PETROBRAS", -100, BigDecimal(50))
+        val negocioRealizado = NegocioRealizado.comValorOperacionalTotal("PETROBRAS", TipoNegociacao.VENDA, PrazoNegociacao.POSICAO, 100, BigDecimal(50))
+
+        val fechamentoPosicao = FechamentoPosicaoService.avaliar(LocalDate.now(), negocioRealizado, saldo)
+
+        assertThat(fechamentoPosicao).isNull()
+    }
+
+    @Test
+    fun `deve fechar posicao parcial`() {
+        val saldo = Saldo("PETROBRAS", 200, BigDecimal(50))
+        val negocioRealizado = NegocioRealizado.comValorOperacionalUnitario("PETROBRAS", TipoNegociacao.VENDA, PrazoNegociacao.POSICAO, 100, BigDecimal(60))
+        negocioRealizado.adicionarCustos(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO)
+
+        val fechamentoPosicao = FechamentoPosicaoService.avaliar(LocalDate.now(), negocioRealizado, saldo)
+
+        assertThat(fechamentoPosicao).isNotNull()
+            .given {
+                assertThat(it.quantidade).isEqualTo(100)
+                assertThat(it.precoMedioCompra).isEqualByComparingTo("50")
+                assertThat(it.precoMedioVenda).isEqualByComparingTo("60")
+                assertThat(it.resultado).isEqualByComparingTo("1000")
+            }
+    }
+
+    @Test
+    fun `deve fechar posicao quando quantidade maior que saldo`() {
+        val saldo = Saldo("PETROBRAS", 200, BigDecimal(50))
+        val negocioRealizado = NegocioRealizado.comValorOperacionalUnitario("PETROBRAS", TipoNegociacao.VENDA, PrazoNegociacao.POSICAO, 300, BigDecimal(60))
+        negocioRealizado.adicionarCustos(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO)
+
+        val fechamentoPosicao = FechamentoPosicaoService.avaliar(LocalDate.now(), negocioRealizado, saldo)
+
+        assertThat(fechamentoPosicao).isNotNull()
+            .given {
+                assertThat(it.quantidade).isEqualTo(200)
+                assertThat(it.precoMedioCompra).isEqualByComparingTo("50")
+                assertThat(it.precoMedioVenda).isEqualByComparingTo("60")
+                assertThat(it.resultado).isEqualByComparingTo("2000")
+            }
+    }
+
+    @Test
+    fun `deve fechar posicao de prejuizo`() {
+        val saldo = Saldo("PETROBRAS", 100, BigDecimal(50))
+        val negocioRealizado = NegocioRealizado.comValorOperacionalUnitario("PETROBRAS", TipoNegociacao.VENDA, PrazoNegociacao.POSICAO, 100, BigDecimal(40))
+        negocioRealizado.adicionarCustos(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO)
+
+        val fechamentoPosicao = FechamentoPosicaoService.avaliar(LocalDate.now(), negocioRealizado, saldo)
+
+        assertThat(fechamentoPosicao).isNotNull()
+            .given {
+                assertThat(it.quantidade).isEqualTo(100)
+                assertThat(it.precoMedioCompra).isEqualByComparingTo("50")
+                assertThat(it.precoMedioVenda).isEqualByComparingTo("40")
+                assertThat(it.resultado).isEqualByComparingTo("-1000")
+            }
+    }
+
+    @Test
+    fun `deve fechar posicao de venda`() {
+        val saldo = Saldo("PETROBRAS", -100, BigDecimal(50))
+        val negocioRealizado = NegocioRealizado.comValorOperacionalUnitario("PETROBRAS", TipoNegociacao.COMPRA, PrazoNegociacao.POSICAO, 100, BigDecimal(40))
+        negocioRealizado.adicionarCustos(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO)
+
+        val fechamentoPosicao = FechamentoPosicaoService.avaliar(LocalDate.now(), negocioRealizado, saldo)
+
+        assertThat(fechamentoPosicao).isNotNull()
+            .given {
+                assertThat(it.quantidade).isEqualTo(100)
+                assertThat(it.precoMedioCompra).isEqualByComparingTo("40")
+                assertThat(it.precoMedioVenda).isEqualByComparingTo("50")
+                assertThat(it.resultado).isEqualByComparingTo("1000")
+            }
+    }
+
+
     @Test
     fun deveGerarFechamentoDayTrades() {
         val compra = NegocioRealizado.comValorOperacionalUnitario(

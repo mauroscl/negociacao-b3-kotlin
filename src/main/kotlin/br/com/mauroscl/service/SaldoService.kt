@@ -17,23 +17,16 @@ internal class SaldoService(
 
     override fun atualizarSaldo(data: LocalDate, negocioRealizado: NegocioRealizado) {
         //não faz sentido ter saldo para day trade.
-        var saldo = saldoRepository.obterPorTitulo(negocioRealizado.titulo)
-        if (saldo == null) {
-            saldo = Saldo(
-                negocioRealizado.titulo,
-                negocioRealizado.quantidadeComSinal,
-                negocioRealizado.valorLiquidacaoUnitario
-            )
+        val saldo = saldoRepository.obterPorTitulo(negocioRealizado.titulo)
+            ?: Saldo.zerado(negocioRealizado.titulo)
+
+        val fechamentoPosicao = FechamentoPosicaoService.avaliar(data, negocioRealizado, saldo)
+
+        if (fechamentoPosicao == null) {
+            saldo.aumentarPosicao(negocioRealizado)
         } else {
-
-            val fechamentoPosicao = FechamentoPosicaoService.avaliar(data, negocioRealizado, saldo)
-
-            if (fechamentoPosicao == null) {
-                saldo.aumentarPosicao(negocioRealizado)
-            } else {
-                saldo.diminuirPosicao(fechamentoPosicao, negocioRealizado)
-                fechamentoPosicaoRepository.persist(fechamentoPosicao)
-            }
+            saldo.diminuirPosicao(fechamentoPosicao, negocioRealizado)
+            fechamentoPosicaoRepository.persist(fechamentoPosicao)
         }
 
         saldoRepository.persistOrUpdate(saldo)

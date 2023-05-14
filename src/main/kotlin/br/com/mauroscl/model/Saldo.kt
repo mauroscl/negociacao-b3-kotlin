@@ -47,5 +47,9 @@ class Saldo @BsonCreator constructor(
         valorTotal = precoMedio.multiply(quantidadeAsBigDecimal)
     }
 
+    companion object {
+        fun zerado(titulo: String) = Saldo(titulo, 0, BigDecimal.ZERO)
+    }
+
 }
 
