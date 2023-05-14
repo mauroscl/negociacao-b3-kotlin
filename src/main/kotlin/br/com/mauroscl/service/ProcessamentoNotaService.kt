@@ -2,18 +2,18 @@ package br.com.mauroscl.service
 
 import br.com.mauroscl.infra.FechamentoPosicaoRepository
 import br.com.mauroscl.infra.NotaNegociacaoRepository
+import br.com.mauroscl.infra.SaldoRepository
 import br.com.mauroscl.model.FechamentoPosicaoService
+import br.com.mauroscl.model.Saldo
 import br.com.mauroscl.parsing.NotaNegociacao
 import br.com.mauroscl.parsing.PrazoNegociacao
 import javax.enterprise.context.ApplicationScoped
-import javax.inject.Inject
-import javax.transaction.Transactional
 
 @ApplicationScoped
-class ProcessamentoNotaService(
-    @Inject var saldoService: ISaldoService,
-    @Inject var notaNegociacaoRepository: NotaNegociacaoRepository,
-    @Inject var fechamentoPosicaoRepository: FechamentoPosicaoRepository
+class ProcessamentoNotaService (
+    private val notaNegociacaoRepository: NotaNegociacaoRepository,
+    private val fechamentoPosicaoRepository: FechamentoPosicaoRepository,
+    private val saldoRepository: SaldoRepository
 ) : IProcessamentoNotaService {
 //    @Transactional
     override fun processar(nota: NotaNegociacao) {
@@ -30,7 +30,16 @@ class ProcessamentoNotaService(
             pagina.negocios
                 .filter { negocio -> negocio.prazo == PrazoNegociacao.POSICAO }
                 .forEach { negocio ->
-                    saldoService.atualizarSaldo(nota.data, negocio)
+                    val saldoAtual = saldoRepository.obterPorTitulo(negocio.titulo)
+                        ?: Saldo.zerado(negocio.titulo)
+
+                    val fechamentoPosicao = FechamentoPosicaoService.avaliar(nota.data, negocio, saldoAtual)
+
+                    SaldoService.atualizarSaldo(saldoAtual, negocio, fechamentoPosicao)
+
+                    fechamentoPosicao?.also { fechamentoPosicaoRepository.persist(it) }
+
+                    saldoRepository.persistOrUpdate(saldoAtual)
                 }
         }
 

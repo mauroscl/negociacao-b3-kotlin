@@ -1,5 +1,6 @@
 package br.com.mauroscl.parsing
 
+import assertk.assertFailure
 import assertk.assertThat
 import assertk.assertions.*
 import org.junit.jupiter.api.Test
@@ -33,8 +34,8 @@ internal class NegocioMercadoFuturoParserTest {
     @Test
     fun deveGerarErroAoParsearNegociacaoComQuantidadeCampoCamposInvalida() {
         val parser = NegocioMercadoFuturoParser()
-        assertThat { parser.parse("CAMPO_ADICIONAL C WDO H20 02/03/2020 1 4.498,7000 AJUPOS 0,00 C 0,00") }
-            .isFailure()
-            .given { assertThat (it.message).isEqualTo("Não foi possível detectar o tipo de negociação de mercado futuro.") }
+        assertFailure { parser.parse("CAMPO_ADICIONAL C WDO H20 02/03/2020 1 4.498,7000 AJUPOS 0,00 C 0,00") }
+            .isInstanceOf(FormatoInformacaoDesconhecidoException::class)
+            .message().isEqualTo("Não foi possível detectar o tipo de negociação de mercado futuro.")
     }
 }

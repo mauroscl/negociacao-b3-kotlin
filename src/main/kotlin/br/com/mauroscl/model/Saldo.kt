@@ -5,6 +5,7 @@ import org.bson.codecs.pojo.annotations.BsonCreator
 import org.bson.codecs.pojo.annotations.BsonProperty
 import org.bson.types.ObjectId
 import java.math.BigDecimal
+import java.math.RoundingMode
 
 /***
  * quantidade: tem sinal
@@ -26,7 +27,7 @@ class Saldo @BsonCreator constructor(
     }
     fun aumentarPosicao(negocio: NegocioRealizado) {
         this.quantidade += negocio.quantidadeComSinal;
-        this.precoMedio = valorTotal.add(negocio.valorLiquidacao).divide(quantidadeAsBigDecimal)
+        this.precoMedio = valorTotal.add(negocio.valorLiquidacao).divide(quantidadeAsBigDecimal, 10, RoundingMode.HALF_UP)
         atualizarValorTotal()
     }
 
@@ -42,7 +43,7 @@ class Saldo @BsonCreator constructor(
     }
 
     private fun atualizarValorTotal() {
-        valorTotal = precoMedio.multiply(quantidadeAsBigDecimal)
+        valorTotal = precoMedio.multiply(quantidadeAsBigDecimal).setScale(2, RoundingMode.HALF_UP)
     }
 
     companion object {

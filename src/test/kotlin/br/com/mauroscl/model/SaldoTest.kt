@@ -26,6 +26,20 @@ class SaldoTest {
     }
 
     @Test
+    fun `deve iniciar posicao`() {
+        val saldo = Saldo.zerado("PETROBRAS")
+        val negocioRealizado = NegocioRealizado.comValorOperacionalTotal("PETROBRAS", TipoNegociacao.COMPRA, PrazoNegociacao.POSICAO, 4300, BigDecimal(24768))
+        negocioRealizado.adicionarCustos(BigDecimal("7.43"), BigDecimal.ZERO, BigDecimal.ZERO)
+
+        saldo.aumentarPosicao(negocioRealizado)
+
+        assertThat(saldo.quantidade).isEqualTo(4300)
+        assertThat(saldo.precoMedio).isEqualByComparingTo("5.761727907")
+        assertThat(saldo.valorTotal).isEqualByComparingTo("24775.43")
+    }
+
+
+    @Test
     fun `deve diminuir posicao`() {
         val saldo = Saldo("PETROBRAS", 200, BigDecimal(50))
         val negocioRealizado = NegocioRealizado.comValorOperacionalUnitario("PETROBRAS", TipoNegociacao.VENDA, PrazoNegociacao.POSICAO, 100, BigDecimal(40))

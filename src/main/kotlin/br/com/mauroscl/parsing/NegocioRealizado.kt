@@ -67,18 +67,14 @@ class NegocioRealizado private constructor(
         }
         this.valorImpostos = valorImpostos
         this.outrosCustos = outrosCustos
+        val custoTotal = taxaOperacional.add(outrosCustos).add(valorImpostos)
         valorLiquidacao = if (TipoNegociacao.COMPRA == tipo) {
-            valorOperacionalEmMoeda.add(taxaOperacional).add(outrosCustos).add(valorImpostos)
+            valorOperacionalEmMoeda.add(custoTotal)
         } else {
-            valorOperacionalEmMoeda
-                .subtract(taxaOperacional)
-                .subtract(outrosCustos)
-                .subtract(valorImpostos)
+            valorOperacionalEmMoeda.subtract(custoTotal)
         }
         if (quantidade > 0) {
-            valorLiquidacaoUnitario = valorLiquidacao.divide(
-                BigDecimal.valueOf(quantidade.toLong()), 10, RoundingMode.HALF_UP
-            )
+            valorLiquidacaoUnitario = valorLiquidacao.divide(BigDecimal(quantidade), 10, RoundingMode.HALF_UP)
         }
     }
 

@@ -7,7 +7,6 @@ import picocli.CommandLine.Command
 import picocli.CommandLine.Parameters
 import java.util.function.Consumer
 import javax.inject.Inject
-import kotlin.system.exitProcess
 
 @Command
 class MainPicocli(@Inject var pdfLoader: PdfLoader, @Inject var processamentoNotaService: IProcessamentoNotaService) : Runnable {
@@ -22,6 +21,7 @@ class MainPicocli(@Inject var pdfLoader: PdfLoader, @Inject var processamentoNot
             System.err.println("Exemplo de uso:")
             System.err.println("java -jar negociacao-b3-1.0-SNAPSHOT.jar c:\\arquivos\\nota-fiscal.pdf")
 //            exitProcess(1)
+            return
         }
         val notaNegociacao = pdfLoader.parseByArea(this.arquivo!!)
         notaNegociacao.unificarPaginas()
