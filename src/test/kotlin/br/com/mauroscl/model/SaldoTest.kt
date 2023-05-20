@@ -13,7 +13,7 @@ import java.math.BigDecimal
 class SaldoTest {
 
     @Test
-    fun `deve aumentar posicao`() {
+    fun `deve aumentar posicao de compra`() {
         val saldo = Saldo("PETROBRAS", 100, BigDecimal(50))
         val negocioRealizado = NegocioRealizado.comValorOperacionalUnitario("PETROBRAS", TipoNegociacao.COMPRA, PrazoNegociacao.POSICAO, 100, BigDecimal(40))
         negocioRealizado.adicionarCustos(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO)
@@ -26,7 +26,21 @@ class SaldoTest {
     }
 
     @Test
-    fun `deve iniciar posicao`() {
+    fun `deve aumentar posicao de venda`() {
+        val saldo = Saldo("PETROBRAS", -100, BigDecimal(50))
+        val negocioRealizado = NegocioRealizado.comValorOperacionalUnitario("PETROBRAS", TipoNegociacao.VENDA, PrazoNegociacao.POSICAO, 100, BigDecimal(40))
+        negocioRealizado.adicionarCustos(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO)
+
+        saldo.aumentarPosicao(negocioRealizado)
+
+        assertThat(saldo.quantidade).isEqualTo(-200)
+        assertThat(saldo.precoMedio).isEqualByComparingTo("45")
+        assertThat(saldo.valorTotal).isEqualByComparingTo("-9000")
+    }
+
+
+    @Test
+    fun `deve iniciar posicao de compra`() {
         val saldo = Saldo.zerado("PETROBRAS")
         val negocioRealizado = NegocioRealizado.comValorOperacionalTotal("PETROBRAS", TipoNegociacao.COMPRA, PrazoNegociacao.POSICAO, 4300, BigDecimal(24768))
         negocioRealizado.adicionarCustos(BigDecimal("7.43"), BigDecimal.ZERO, BigDecimal.ZERO)
@@ -38,6 +52,18 @@ class SaldoTest {
         assertThat(saldo.valorTotal).isEqualByComparingTo("24775.43")
     }
 
+    @Test
+    fun `deve iniciar posicao de venda`() {
+        val saldo = Saldo.zerado("PETROBRAS")
+        val negocioRealizado = NegocioRealizado.comValorOperacionalTotal("PETROBRAS", TipoNegociacao.VENDA, PrazoNegociacao.POSICAO, 4300, BigDecimal(24768))
+        negocioRealizado.adicionarCustos(BigDecimal("7.43"), BigDecimal.ZERO, BigDecimal.ZERO)
+
+        saldo.aumentarPosicao(negocioRealizado)
+
+        assertThat(saldo.quantidade).isEqualTo(-4300)
+        assertThat(saldo.precoMedio).isEqualByComparingTo("5.758272093")
+        assertThat(saldo.valorTotal).isEqualByComparingTo("-24760.57")
+    }
 
     @Test
     fun `deve diminuir posicao`() {

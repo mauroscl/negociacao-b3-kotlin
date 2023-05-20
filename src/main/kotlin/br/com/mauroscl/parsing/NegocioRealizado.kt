@@ -79,6 +79,7 @@ class NegocioRealizado private constructor(
     }
 
     val quantidadeComSinal get() = if (this.tipo == TipoNegociacao.COMPRA) this.quantidade else - this.quantidade
+    val valorLiquidacaoComSinal get() = if (this.tipo == TipoNegociacao.COMPRA) this.valorLiquidacao else - this.valorLiquidacao
 
     override fun toString(): String {
         val numberFormat = NumberFormat.getInstance(Locale.forLanguageTag("pt-BR"))

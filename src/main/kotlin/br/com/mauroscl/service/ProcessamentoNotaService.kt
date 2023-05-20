@@ -8,6 +8,7 @@ import br.com.mauroscl.model.Saldo
 import br.com.mauroscl.parsing.NotaNegociacao
 import br.com.mauroscl.parsing.PrazoNegociacao
 import javax.enterprise.context.ApplicationScoped
+import javax.transaction.Transactional
 
 @ApplicationScoped
 class ProcessamentoNotaService (
@@ -15,7 +16,7 @@ class ProcessamentoNotaService (
     private val fechamentoPosicaoRepository: FechamentoPosicaoRepository,
     private val saldoRepository: SaldoRepository
 ) : IProcessamentoNotaService {
-//    @Transactional
+    @Transactional
     override fun processar(nota: NotaNegociacao) {
         nota.paginas.forEach { pagina ->
 
@@ -42,7 +43,6 @@ class ProcessamentoNotaService (
                     saldoRepository.persistOrUpdate(saldoAtual)
                 }
         }
-
         notaNegociacaoRepository.persist(nota)
     }
 }

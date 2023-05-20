@@ -26,8 +26,8 @@ class Saldo @BsonCreator constructor(
         atualizarValorTotal()
     }
     fun aumentarPosicao(negocio: NegocioRealizado) {
-        this.quantidade += negocio.quantidadeComSinal;
-        this.precoMedio = valorTotal.add(negocio.valorLiquidacao).divide(quantidadeAsBigDecimal, 10, RoundingMode.HALF_UP)
+        this.quantidade += negocio.quantidadeComSinal
+        this.precoMedio = valorTotal.add(negocio.valorLiquidacaoComSinal).divide(quantidadeAsBigDecimal, 10, RoundingMode.HALF_UP)
         atualizarValorTotal()
     }
 
