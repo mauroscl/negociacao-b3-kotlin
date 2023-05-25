@@ -66,7 +66,7 @@ class SaldoTest {
     }
 
     @Test
-    fun `deve diminuir posicao`() {
+    fun `deve diminuir posicao de compra`() {
         val saldo = Saldo("PETROBRAS", 200, BigDecimal(50))
         val negocioRealizado = NegocioRealizado.comValorOperacionalUnitario("PETROBRAS", TipoNegociacao.VENDA, PrazoNegociacao.POSICAO, 100, BigDecimal(40))
         negocioRealizado.adicionarCustos(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO)
@@ -77,8 +77,21 @@ class SaldoTest {
         assertThat(saldo.precoMedio).isEqualByComparingTo("50")
         assertThat(saldo.valorTotal).isEqualByComparingTo("5000")
     }
+
     @Test
-    fun `deve zerar posicao`() {
+    fun `deve diminuir posicao de venda`() {
+        val saldo = Saldo("PETROBRAS", -200, BigDecimal(50))
+        val negocioRealizado = NegocioRealizado.comValorOperacionalUnitario("PETROBRAS", TipoNegociacao.COMPRA, PrazoNegociacao.POSICAO, 100, BigDecimal(40))
+        negocioRealizado.adicionarCustos(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO)
+
+        saldo.diminuirPosicao(negocioRealizado)
+
+        assertThat(saldo.quantidade).isEqualTo(-100)
+        assertThat(saldo.precoMedio).isEqualByComparingTo("50")
+        assertThat(saldo.valorTotal).isEqualByComparingTo("-5000")
+    }
+    @Test
+    fun `deve zerar posicao de compra`() {
         val saldo = Saldo("PETROBRAS", 200, BigDecimal(50))
         val negocioRealizado = NegocioRealizado.comValorOperacionalUnitario("PETROBRAS", TipoNegociacao.VENDA, PrazoNegociacao.POSICAO, 200, BigDecimal(40))
         negocioRealizado.adicionarCustos(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO)
@@ -91,7 +104,21 @@ class SaldoTest {
     }
 
     @Test
-    fun `deve inverter posicao`() {
+    fun `deve zerar posicao de venda`() {
+        val saldo = Saldo("PETROBRAS", -200, BigDecimal(50))
+        val negocioRealizado = NegocioRealizado.comValorOperacionalUnitario("PETROBRAS", TipoNegociacao.COMPRA, PrazoNegociacao.POSICAO, 200, BigDecimal(40))
+        negocioRealizado.adicionarCustos(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO)
+
+        saldo.diminuirPosicao(negocioRealizado)
+
+        assertThat(saldo.quantidade).isZero()
+        assertThat(saldo.precoMedio).isZero()
+        assertThat(saldo.valorTotal).isZero()
+    }
+
+
+    @Test
+    fun `deve inverter posicao de compra para venda`() {
         val saldo = Saldo("PETROBRAS", 200, BigDecimal(50))
         val negocioRealizado = NegocioRealizado.comValorOperacionalUnitario("PETROBRAS", TipoNegociacao.VENDA, PrazoNegociacao.POSICAO, 300, BigDecimal(40))
         negocioRealizado.adicionarCustos(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO)
@@ -102,5 +129,19 @@ class SaldoTest {
         assertThat(saldo.precoMedio).isEqualByComparingTo("40")
         assertThat(saldo.valorTotal).isEqualByComparingTo("-4000")
     }
+
+    @Test
+    fun `deve inverter posicao de venda para pra compra`() {
+        val saldo = Saldo("PETROBRAS", -200, BigDecimal(50))
+        val negocioRealizado = NegocioRealizado.comValorOperacionalUnitario("PETROBRAS", TipoNegociacao.COMPRA, PrazoNegociacao.POSICAO, 300, BigDecimal(40))
+        negocioRealizado.adicionarCustos(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO)
+
+        saldo.diminuirPosicao(negocioRealizado)
+
+        assertThat(saldo.quantidade).isEqualTo(100)
+        assertThat(saldo.precoMedio).isEqualByComparingTo("40")
+        assertThat(saldo.valorTotal).isEqualByComparingTo("4000")
+    }
+
 
 }

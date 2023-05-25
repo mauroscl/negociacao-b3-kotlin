@@ -6,6 +6,7 @@ import org.bson.codecs.pojo.annotations.BsonProperty
 import org.bson.types.ObjectId
 import java.math.BigDecimal
 import java.math.RoundingMode
+import kotlin.math.absoluteValue
 
 /***
  * quantidade: tem sinal
@@ -32,7 +33,7 @@ class Saldo @BsonCreator constructor(
     }
 
     fun diminuirPosicao(negocio: NegocioRealizado) {
-        if (negocio.quantidade > this.quantidade) {
+        if (negocio.quantidade > this.quantidade.absoluteValue) {
             this.precoMedio = negocio.valorLiquidacaoUnitario
         }
         this.quantidade += negocio.quantidadeComSinal

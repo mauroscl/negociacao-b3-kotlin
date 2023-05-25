@@ -6,13 +6,14 @@ import java.text.NumberFormat
 import java.util.*
 
 class NegocioRealizado private constructor(
-    val titulo: String,
+    titulo: String,
     val tipo: TipoNegociacao,
     val prazo: PrazoNegociacao,
     val quantidade: Int,
     // valor sem custos
     val valorOperacional: BigDecimal
 ) {
+    val titulo: String
     val valorOperacionalEmMoeda: BigDecimal
     var taxaOperacional: BigDecimal = BigDecimal.ZERO
 
@@ -28,6 +29,7 @@ class NegocioRealizado private constructor(
     var valorLiquidacaoUnitario: BigDecimal
 
     init {
+        this.titulo = titulo.replace(Regex("\\sE(DJ|D|J)"), "")
         valorImpostos = BigDecimal.ZERO
         outrosCustos = BigDecimal.ZERO
         valorLiquidacao = BigDecimal.ZERO

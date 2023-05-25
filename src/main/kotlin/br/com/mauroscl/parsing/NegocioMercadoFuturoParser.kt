@@ -49,7 +49,7 @@ class NegocioMercadoFuturoParser internal constructor() {
         return if (DAYTRADE == prazoNegociacaoLiteral) PrazoNegociacao.DAYTRADE else PrazoNegociacao.POSICAO
     }
 
-    companion object {
+    private companion object {
         private const val DAYTRADE = "DAY TRADE"
         private const val TAXA_PERMANENCIA = "TX. PERMAN\u00CANCIA"
         private const val NORMAL = "NORMAL"
