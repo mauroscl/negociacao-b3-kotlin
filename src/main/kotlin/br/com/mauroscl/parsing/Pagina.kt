@@ -51,7 +51,7 @@ class Pagina @BsonCreator internal constructor(
 
         val resumoFinanceiroNaoNulo = resumoFinanceiro!!
 
-        val quantidadeNegociosTributados = BigDecimal.valueOf(obterQuantidadesNegociosTributados())
+        val quantidadeNegociosTributados = BigDecimal.valueOf(obterQuantidadesNegociosTributados().toLong())
         val taxaOperacional = resumoFinanceiroNaoNulo.taxaOperacional
             .divide(quantidadeNegociosTributados, 10, RoundingMode.HALF_UP)
         val valorImpostos = resumoFinanceiroNaoNulo.valorImpostos
@@ -64,10 +64,9 @@ class Pagina @BsonCreator internal constructor(
         }
     }
 
-    private fun obterQuantidadesNegociosTributados(): Long {
-        return negocios.stream()
-            .filter { obj: NegocioRealizado? -> obj!!.temTaxaOperacional() }
-            .count()
+    private fun obterQuantidadesNegociosTributados(): Int {
+        return negocios
+            .count { it.temTaxaOperacional() }
     }
 
     companion object {

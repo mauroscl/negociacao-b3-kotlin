@@ -17,7 +17,6 @@ class NotaNegociacaoParser(@Inject var identificadorMercado: IdentificadorMercad
         val data = parsearData(primeiraPagina)
         val notaNegociacao = NotaNegociacao(data)
         paginas
-            .stream()
             .map { pagina: String -> parsearPagina(pagina) }
             .forEach { pagina: Pagina -> notaNegociacao.adicionarPagina(pagina) }
         return notaNegociacao

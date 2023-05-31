@@ -14,7 +14,7 @@ class NegocioMercadoVistaParser {
         val segundaParteMap = separarSegundaParte(subStringComecandoObservacao)
         return NegocioRealizado.comValorOperacionalTotal(
             primeiraParteMap["TITULO"]!!,
-            TipoNegociacao.criarPorCodigo(primeiraParteMap["TIPONEGOCIACAO"]),
+            TipoNegociacao.criarPorCodigo(primeiraParteMap["TIPONEGOCIACAO"]!!),
             PrazoNegociacao.valueOf(segundaParteMap["PRAZO"]!!),
             Integer.valueOf(segundaParteMap["QUANTIDADE"]),
             BigDecimal(segundaParteMap["VALORTOTAL"])
