@@ -1,15 +1,17 @@
 package br.com.mauroscl.parsing
 
+import org.bson.codecs.pojo.annotations.BsonCreator
+import org.bson.codecs.pojo.annotations.BsonProperty
 import java.math.BigDecimal
 
-class ResumoFinanceiro internal constructor(
-    val valorOperacoes: BigDecimal,
-    val valorNota: BigDecimal,
-    val taxaOperacional: BigDecimal,
-    val irrfNormalParticipaDoCusto: Boolean,
-    val valorIrrfNormal: BigDecimal,
-    val valorIrrfDayTrade: BigDecimal,
-    val valorImpostos: BigDecimal
+class ResumoFinanceiro @BsonCreator internal constructor(
+    @BsonProperty("valorOperacoes") val valorOperacoes: BigDecimal,
+    @BsonProperty("valorNota")val valorNota: BigDecimal,
+    @BsonProperty("taxaOperacional")val taxaOperacional: BigDecimal,
+    @BsonProperty("irrfNormalParticipaDoCusto")val irrfNormalParticipaDoCusto: Boolean,
+    @BsonProperty("valorIrrfNormal")val valorIrrfNormal: BigDecimal,
+    @BsonProperty("valorIrrfDayTrade")val valorIrrfDayTrade: BigDecimal,
+    @BsonProperty("valorImpostos")val valorImpostos: BigDecimal
 ) {
     val taxaTotal: BigDecimal = valorOperacoes.subtract(valorNota)
     val custoParaRatear: BigDecimal

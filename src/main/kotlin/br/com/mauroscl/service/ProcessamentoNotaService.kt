@@ -7,6 +7,7 @@ import br.com.mauroscl.model.FechamentoPosicaoService
 import br.com.mauroscl.model.Saldo
 import br.com.mauroscl.parsing.NotaNegociacao
 import br.com.mauroscl.parsing.PrazoNegociacao
+import java.time.LocalDate
 import javax.enterprise.context.ApplicationScoped
 import javax.transaction.Transactional
 
@@ -16,8 +17,17 @@ class ProcessamentoNotaService (
     private val fechamentoPosicaoRepository: FechamentoPosicaoRepository,
     private val saldoRepository: SaldoRepository
 ) : IProcessamentoNotaService {
+    override fun processar(nota: NotaNegociacao) = processarNota(nota)
+
     @Transactional
-    override fun processar(nota: NotaNegociacao) {
+    override fun processar(data: LocalDate) {
+        this.notaNegociacaoRepository.findByData(data)
+            ?.also { processarNota(it) }
+            ?: throw NoSuchElementException("Nenhuma nota de negociação encontrada na data $data")
+    }
+
+    private fun processarNota(nota: NotaNegociacao) {
+        println(nota)
         nota.paginas.forEach { pagina ->
 
             val dayTrades = pagina.negocios
@@ -43,6 +53,5 @@ class ProcessamentoNotaService (
                     saldoRepository.persistOrUpdate(saldoAtual)
                 }
         }
-        notaNegociacaoRepository.persist(nota)
     }
 }

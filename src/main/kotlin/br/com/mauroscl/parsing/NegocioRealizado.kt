@@ -1,31 +1,40 @@
 package br.com.mauroscl.parsing
 
+import org.bson.codecs.pojo.annotations.BsonCreator
+import org.bson.codecs.pojo.annotations.BsonProperty
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.NumberFormat
 import java.util.*
 
-class NegocioRealizado private constructor(
-    titulo: String,
-    val tipo: TipoNegociacao,
-    val prazo: PrazoNegociacao,
-    val quantidade: Int,
+class NegocioRealizado @BsonCreator internal constructor(
+    @BsonProperty("titulo") titulo: String,
+    @BsonProperty("tipo") val tipo: TipoNegociacao,
+    @BsonProperty("prazo") val prazo: PrazoNegociacao,
+    @BsonProperty("quantidade") val quantidade: Int,
     // valor sem custos
-    val valorOperacional: BigDecimal
+    @BsonProperty("valorOperacional") val valorOperacional: BigDecimal
 ) {
+    @BsonProperty("titulo")
     val titulo: String
+    @BsonProperty("valorOperacionalEmMoeda")
     val valorOperacionalEmMoeda: BigDecimal
+    @BsonProperty("taxaOperacional")
     var taxaOperacional: BigDecimal = BigDecimal.ZERO
 
     // é calculado em cima da taxa de corretagem. Deve ser rateado de forma igual por todos os ativos
     // negociados
+    @BsonProperty("valorImpostos")
     var valorImpostos: BigDecimal
+    @BsonProperty("outrosCustos")
     var outrosCustos: BigDecimal
 
     // valor com custos
+    @BsonProperty("valorLiquidacao")
     var valorLiquidacao: BigDecimal
 
     // valor com custos dividido pela quantidade
+    @BsonProperty("valorLiquidacaoUnitario")
     var valorLiquidacaoUnitario: BigDecimal
 
     init {

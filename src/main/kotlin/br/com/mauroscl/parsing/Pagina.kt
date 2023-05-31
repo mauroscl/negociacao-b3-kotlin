@@ -1,12 +1,15 @@
 package br.com.mauroscl.parsing
 
+import org.bson.codecs.pojo.annotations.BsonCreator
+import org.bson.codecs.pojo.annotations.BsonProperty
 import java.math.BigDecimal
 import java.math.RoundingMode
 
-class Pagina private constructor(
-    val mercado: Mercado,
-    val resumoFinanceiro: ResumoFinanceiro?
+class Pagina @BsonCreator internal constructor(
+    @BsonProperty("mercado") val mercado: Mercado,
+    @BsonProperty("resumoFinanceiro") val resumoFinanceiro: ResumoFinanceiro?
 ) {
+    @BsonProperty("negocios")
     var negocios: MutableList<NegocioRealizado>
 
     init {

@@ -1,8 +1,12 @@
 package br.com.mauroscl.parsing
 
+import org.bson.codecs.pojo.annotations.BsonCreator
+import org.bson.codecs.pojo.annotations.BsonProperty
 import java.time.LocalDate
 
-class NotaNegociacao internal constructor(val data: LocalDate) {
+class NotaNegociacao @BsonCreator  internal constructor(
+    @BsonProperty("data") val data: LocalDate) {
+    @BsonProperty("paginas")
     var paginas: MutableList<Pagina>
 
     init {
