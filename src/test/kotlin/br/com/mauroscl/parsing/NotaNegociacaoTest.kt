@@ -52,7 +52,7 @@ internal class NotaNegociacaoTest {
         val paginasUnificadas = nota.paginas
         assertThat(paginasUnificadas).hasSize(2)
         val paginaUnificadaVista = paginasUnificadas[0]
-        assertThat(paginaUnificadaVista.negocios).hasSize(2)
+        assertThat(paginaUnificadaVista.obterNegocios()).hasSize(2)
         val paginaUnificadaFuturo = paginasUnificadas[1]
         assertThat(paginaUnificadaFuturo).isEqualTo(paginaFuturo)
     }

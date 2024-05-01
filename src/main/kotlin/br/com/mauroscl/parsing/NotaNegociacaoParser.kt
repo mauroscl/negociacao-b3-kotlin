@@ -1,11 +1,11 @@
 package br.com.mauroscl.parsing
 
 import br.com.mauroscl.infra.LoggerDelegate
+import jakarta.enterprise.context.ApplicationScoped
+import jakarta.inject.Inject
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.regex.Pattern
-import javax.enterprise.context.ApplicationScoped
-import javax.inject.Inject
 
 @ApplicationScoped
 class NotaNegociacaoParser(@Inject var identificadorMercado: IdentificadorMercado) {

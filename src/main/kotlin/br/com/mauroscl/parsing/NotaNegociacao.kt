@@ -22,7 +22,7 @@ class NotaNegociacao @BsonCreator  internal constructor(
         var paginaSemResumoFinanceiro: Pagina? = null
         for (pagina in paginas) {
             if (paginaSemResumoFinanceiro != null) {
-                pagina.adicionarNegocios(paginaSemResumoFinanceiro.negocios)
+                pagina.adicionarNegocios(paginaSemResumoFinanceiro.obterNegocios())
             }
             paginaSemResumoFinanceiro = if (pagina.temResumoFinanceiro()) {
                 paginasUnificadas.add(pagina)

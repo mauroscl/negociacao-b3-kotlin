@@ -1,6 +1,6 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.8.20'
-    id "org.jetbrains.kotlin.plugin.allopen" version "1.8.20"
+    id 'org.jetbrains.kotlin.jvm' version '1.9.23'
+    id "org.jetbrains.kotlin.plugin.allopen" version "1.9.23"
     id 'io.quarkus'
 }
 
@@ -9,39 +9,23 @@ repositories {
     mavenLocal()
 }
 
-//jar {
-//    manifest {
-//        attributes(
-//                'Main-Class': 'br.com.mauroscl.Main'
-//        )
-//    }
-//}
-
 group 'br.com.mauroscl'
 version '1.4.0'
 
-//if (project.hasProperty('projVersion')) {
-//    project.version = project.projVersion
-//}
-
 dependencies {
-//    implementation 'io.quarkus:quarkus-mongodb-client'
     implementation("io.quarkus:quarkus-mongodb-panache-kotlin")
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
     implementation 'io.quarkus:quarkus-picocli'
     implementation 'io.quarkus:quarkus-kotlin'
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
     implementation 'io.quarkus:quarkus-arc'
     testImplementation 'io.quarkus:quarkus-junit5'
-    implementation 'org.apache.pdfbox:pdfbox:2.0.28'
-//    testImplementation('org.junit.jupiter:junit-jupiter:5.6.2')
-    implementation 'com.willowtreeapps.assertk:assertk:0.26'
-//    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    implementation 'org.apache.pdfbox:pdfbox:2.0.31'
+    implementation 'com.willowtreeapps.assertk:assertk:0.28.1'
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 test {
@@ -54,10 +38,10 @@ allOpen {
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_17
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_21
     kotlinOptions.javaParameters = true
 }
 
 compileTestKotlin {
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_17
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_21
 }

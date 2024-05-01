@@ -1,17 +1,17 @@
 package br.com.mauroscl.parsing
 
 import br.com.mauroscl.infra.NotaNegociacaoRepository
+import jakarta.enterprise.context.ApplicationScoped
+import jakarta.inject.Inject
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.text.PDFTextStripperByArea
 import java.awt.geom.Rectangle2D
 import java.io.File
 import java.io.IOException
-import javax.enterprise.context.ApplicationScoped
-import javax.inject.Inject
 
 @ApplicationScoped
 class PdfLoader(@Inject var notaNegociacaoParser: NotaNegociacaoParser,
-    @Inject var notaNegociacaoRepository: NotaNegociacaoRepository) {
+                @Inject var notaNegociacaoRepository: NotaNegociacaoRepository) {
     fun parseByArea(filePath: String): NotaNegociacao {
         var stripper: PDFTextStripperByArea
         try {

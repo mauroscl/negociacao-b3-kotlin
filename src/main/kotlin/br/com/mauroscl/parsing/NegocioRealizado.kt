@@ -16,7 +16,8 @@ class NegocioRealizado @BsonCreator internal constructor(
     @BsonProperty("valorOperacional") val valorOperacional: BigDecimal
 ) {
     @BsonProperty("titulo")
-    val titulo: String
+    val titulo: String = titulo.replace(Regex("\\sE(DJ|D|J)"), "")
+
     @BsonProperty("valorOperacionalEmMoeda")
     val valorOperacionalEmMoeda: BigDecimal
     @BsonProperty("taxaOperacional")
@@ -38,7 +39,6 @@ class NegocioRealizado @BsonCreator internal constructor(
     var valorLiquidacaoUnitario: BigDecimal
 
     init {
-        this.titulo = titulo.replace(Regex("\\sE(DJ|D|J)"), "")
         valorImpostos = BigDecimal.ZERO
         outrosCustos = BigDecimal.ZERO
         valorLiquidacao = BigDecimal.ZERO

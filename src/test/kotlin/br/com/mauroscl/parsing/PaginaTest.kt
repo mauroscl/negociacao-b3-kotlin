@@ -70,7 +70,7 @@ internal class PaginaTest {
         )
         pagina.adicionarNegocios(negociacoesDetalhadas)
         pagina.agruparNegocios()
-        val negociacoesAgrupadas: List<NegocioRealizado> = pagina.negocios
+        val negociacoesAgrupadas: List<NegocioRealizado> = pagina.obterNegocios()
         assertThat(negociacoesAgrupadas).hasSize(3)
         val compraDayTrade = negociacoesAgrupadas.first { n: NegocioRealizado ->
             n.obterChave() == NegociacaoChave(
@@ -138,8 +138,9 @@ internal class PaginaTest {
         notaNegociacao.adicionarPagina(pagina)
         notaNegociacao.unificarPaginas()
         val paginaComCustos: Pagina = notaNegociacao.paginas[0]
-        assertThat(paginaComCustos.negocios).hasSize(3)
-        val nc1 = paginaComCustos.negocios[0]
+        val negocios = paginaComCustos.obterNegocios()
+        assertThat(negocios).hasSize(3)
+        val nc1 = negocios[0]
         assertThat(nc1.titulo).isEqualTo("BBAS3")
         assertThat(nc1.valorOperacional).isEqualByComparingTo("10920")
         assertThat(nc1.taxaOperacional).isEqualByComparingTo("7.7")
@@ -147,7 +148,7 @@ internal class PaginaTest {
         assertThat(nc1.outrosCustos).isEqualByComparingTo("3.35")
         assertThat(nc1.valorLiquidacao).isEqualByComparingTo("10908.13")
         assertThat(nc1.valorLiquidacaoUnitario).isEqualByComparingTo("27.270325")
-        val nc2 = paginaComCustos.negocios[1]
+        val nc2 = negocios[1]
         assertThat(nc2.titulo).isEqualTo("BRFS3")
         assertThat(nc2.valorOperacional).isEqualByComparingTo("4629")
         assertThat(nc2.taxaOperacional).isEqualByComparingTo("7.7")
@@ -155,7 +156,7 @@ internal class PaginaTest {
         assertThat(nc2.outrosCustos).isEqualByComparingTo("1.42")
         assertThat(nc2.valorLiquidacao).isEqualByComparingTo("4638.94")
         assertThat(nc2.valorLiquidacaoUnitario).isEqualByComparingTo("15.4631333333")
-        val nc3 = paginaComCustos.negocios[2]
+        val nc3 = negocios[2]
         assertThat(nc3.titulo).isEqualTo("EQTL3")
         assertThat(nc3.valorOperacional).isEqualByComparingTo("9195")
         assertThat(nc3.taxaOperacional).isEqualByComparingTo("7.7")

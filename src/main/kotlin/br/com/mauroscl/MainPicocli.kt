@@ -2,9 +2,9 @@ package br.com.mauroscl
 
 import io.quarkus.runtime.QuarkusApplication
 import io.quarkus.runtime.annotations.QuarkusMain
+import jakarta.inject.Inject
 import picocli.CommandLine
 import picocli.CommandLine.Command
-import javax.inject.Inject
 
 
 @QuarkusMain

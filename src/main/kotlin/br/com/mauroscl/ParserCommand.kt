@@ -1,13 +1,12 @@
 package br.com.mauroscl
 
 import br.com.mauroscl.infra.LoggerDelegate
-import br.com.mauroscl.parsing.NegocioRealizado
 import br.com.mauroscl.parsing.PdfLoader
 import br.com.mauroscl.service.IProcessamentoNotaService
+import jakarta.inject.Inject
+import jakarta.transaction.Transactional
 import picocli.CommandLine
 import picocli.CommandLine.Command
-import javax.inject.Inject
-import javax.transaction.Transactional
 import kotlin.system.exitProcess
 
 @Command(name = "parser")
@@ -16,10 +15,15 @@ class ParserCommand(@Inject var pdfLoader: PdfLoader, @Inject var processamentoN
 
     private val logger by LoggerDelegate()
 
-    @CommandLine.Parameters(index = "0", arity = "1")
+    @CommandLine.Parameters(index = "0", arity = "1", description = ["Caminho do arquivo pdf a ser processado"])
     private lateinit var arquivo: String
 
-    @CommandLine.Option(names = ["--process"], defaultValue = "true")
+    @CommandLine.Option(
+        names = ["--process"],
+        description = ["Indica se as notas devem ser processadas", "true: persiste as notas e realiza o processamento", "false: apenas imprime o conteúdo das notas no console"],
+        defaultValue = "true",
+        showDefaultValue = CommandLine.Help.Visibility.ALWAYS
+    )
     var processarNotas: Boolean = true
 
     @Transactional
@@ -29,7 +33,7 @@ class ParserCommand(@Inject var pdfLoader: PdfLoader, @Inject var processamentoN
             for (pagina in notaNegociacao.paginas) {
                 println(pagina.mercado)
                 println(pagina.resumoFinanceiro)
-                pagina.negocios.forEach { x: NegocioRealizado -> println(x) }
+                pagina.obterNegocios().forEach { println(it) }
             }
             if (processarNotas) {
                 processamentoNotaService.processar(notaNegociacao)

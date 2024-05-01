@@ -10,7 +10,7 @@ class Pagina @BsonCreator internal constructor(
     @BsonProperty("resumoFinanceiro") val resumoFinanceiro: ResumoFinanceiro?
 ) {
     @BsonProperty("negocios")
-    var negocios: MutableList<NegocioRealizado>
+    private var negocios: MutableList<NegocioRealizado>
 
     init {
         negocios = ArrayList()
@@ -19,6 +19,12 @@ class Pagina @BsonCreator internal constructor(
     fun adicionarNegocios(novasNegociacoes: List<NegocioRealizado>) {
         negocios.addAll(novasNegociacoes)
     }
+
+    fun obterNegocios(prazoNegociacao: PrazoNegociacao) =
+        this.negocios
+            .filter { negocio -> negocio.prazo == prazoNegociacao }
+
+    fun obterNegocios() = this.negocios.toList()
 
     fun temResumoFinanceiro(): Boolean {
         return resumoFinanceiro != null

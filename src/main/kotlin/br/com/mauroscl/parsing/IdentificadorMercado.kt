@@ -1,6 +1,7 @@
 package br.com.mauroscl.parsing
 
-import javax.enterprise.context.ApplicationScoped
+import jakarta.enterprise.context.ApplicationScoped
+
 
 @ApplicationScoped
 class IdentificadorMercado {
