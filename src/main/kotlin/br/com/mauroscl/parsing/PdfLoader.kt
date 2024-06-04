@@ -1,8 +1,6 @@
 package br.com.mauroscl.parsing
 
-import br.com.mauroscl.infra.NotaNegociacaoRepository
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.text.PDFTextStripperByArea
 import java.awt.geom.Rectangle2D
@@ -10,9 +8,8 @@ import java.io.File
 import java.io.IOException
 
 @ApplicationScoped
-class PdfLoader(@Inject var notaNegociacaoParser: NotaNegociacaoParser,
-                @Inject var notaNegociacaoRepository: NotaNegociacaoRepository) {
-    fun parseByArea(filePath: String): NotaNegociacao {
+class PdfLoader() {
+    fun parseByArea(filePath: String): Collection<String> {
         var stripper: PDFTextStripperByArea
         try {
             PDDocument.load(File(filePath)).use { document ->
@@ -35,12 +32,7 @@ class PdfLoader(@Inject var notaNegociacaoParser: NotaNegociacaoParser,
                     paginas.add(textForRegion)
                     stripper.removeRegion(regionName)
                 }
-
-                val notaNegociacao = notaNegociacaoParser.parse(paginas)
-                notaNegociacao.unificarPaginas()
-                notaNegociacaoRepository.persist(notaNegociacao)
-
-                return notaNegociacao
+                return paginas;
             }
         } catch (e: IOException) {
             throw RuntimeException("Erro ao carregar arquivo", e)

@@ -1,16 +1,15 @@
 package br.com.mauroscl
 
 import br.com.mauroscl.infra.LoggerDelegate
-import br.com.mauroscl.parsing.PdfLoader
 import br.com.mauroscl.service.IProcessamentoNotaService
-import jakarta.inject.Inject
+import br.com.mauroscl.service.ImportadorNota
 import jakarta.transaction.Transactional
 import picocli.CommandLine
 import picocli.CommandLine.Command
 import kotlin.system.exitProcess
 
 @Command(name = "parser")
-class ParserCommand(@Inject var pdfLoader: PdfLoader, @Inject var processamentoNotaService: IProcessamentoNotaService) :
+class ParserCommand(private val importadorNota: ImportadorNota, private val processamentoNotaService: IProcessamentoNotaService) :
     Runnable {
 
     private val logger by LoggerDelegate()
@@ -29,7 +28,7 @@ class ParserCommand(@Inject var pdfLoader: PdfLoader, @Inject var processamentoN
     @Transactional
     override fun run() {
         try {
-            val notaNegociacao = pdfLoader.parseByArea(this.arquivo)
+            val notaNegociacao = importadorNota.executar(this.arquivo)
             for (pagina in notaNegociacao.paginas) {
                 println(pagina.mercado)
                 println(pagina.resumoFinanceiro)

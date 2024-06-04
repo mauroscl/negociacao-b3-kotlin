@@ -1,18 +1,15 @@
 package br.com.mauroscl.parsing
 
-import br.com.mauroscl.infra.LoggerDelegate
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.regex.Pattern
 
 @ApplicationScoped
-class NotaNegociacaoParser(@Inject var identificadorMercado: IdentificadorMercado) {
+class NotaNegociacaoParser(private val identificadorMercado: IdentificadorMercado) {
 
     private val pattern = Pattern.compile(regex)
-    private val logger by LoggerDelegate()
-    fun parse(paginas: List<String>): NotaNegociacao {
+    fun parse(paginas: Collection<String>): NotaNegociacao {
         val primeiraPagina = paginas.first()
         val data = parsearData(primeiraPagina)
         val notaNegociacao = NotaNegociacao(data)
