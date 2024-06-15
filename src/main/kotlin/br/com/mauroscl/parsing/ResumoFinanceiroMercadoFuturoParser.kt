@@ -152,7 +152,7 @@ class ResumoFinanceiroMercadoFuturoParser {
         )
         private const val LINHA_AVISO =
             "+Custos BM&F, conforme Of\u00EDcio Circular BM&F 079/2007-DG"
-        private val VALOR_COM_SINAL_REGEX = "($NUMERO_DECIMAL_REGEX)\\s\\|\\s*([CD]?)$"
+        private const val VALOR_COM_SINAL_REGEX = "($NUMERO_DECIMAL_REGEX)\\s\\|\\s*([CD]?)$"
         private val VALOR_COM_SINAL_PATTERN = Pattern.compile(VALOR_COM_SINAL_REGEX)
         private const val IRRF_NORMAL_GROUP_NAME = "irrfnormal"
         private const val IRRF_DAYTRADE_GROUP_NAME = "irrfdaytrade"
@@ -160,7 +160,7 @@ class ResumoFinanceiroMercadoFuturoParser {
         private const val IRRF_NORMAL_KEY = "IRRF_NORMAL"
         private const val IRRF_DAYTRADE_KEY = "IRRF_DAYTRADE"
         private const val TAXA_OPERACIONAL_KEY = "TAXA_OPERACIONAL"
-        private val TAXAS_REGEX = ("(?<"
+        private const val TAXAS_REGEX = ("(?<"
                 + IRRF_NORMAL_GROUP_NAME
                 + ">"
                 + NUMERO_DECIMAL_REGEX

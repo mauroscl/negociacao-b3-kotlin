@@ -1,0 +1,35 @@
+ NOTA DE EMPRÉSTIMO Data de Emissão Data de Liquidação Número da Nota Página
+08/02/2024 - 20:38 08/02/2024 307443 1
+[ERR!]
+XP INVESTIMENTOS
+Avenida Borges Medeiros, 633 – SL 708 , CEP: 22430-041
+Tel. SAC: 0800-772-0202 Ouvidoria: 0800-722-3710
+www.xpi.com.br
+C.N.P.J.: 02.332.886/0001-04
+Cliente C.P.F./C.N.P.J./C.V.M./C.O.B.
+6756163-9 MAURO SERGIO DA COSTA LEAL 968.943.000-97
+RUA DOS MAIAS, 965 - 210   RUBEM BERTA
+ 91170-200 PORTO ALEGRE - RS Código Cliente Assessor
+ 3-5 6756163-9
+Operações
+Lado: Tomador Abertura: 02/02/2024 Valor Liquidação: 15.455,00
+Contrato: 2024020200558123890001-1 Vencimento: 15/03/2024 Remuneração: -2,19
+Taxa: 1,20% Qtd. Atual: 0 Emolumentos: -0,88
+Papel: BRFS3 Qtd. Original: 1.100 I.R.R.F:
+Contraparte Vinc?: N Qtd. Liquidação: 1.100 Corret. Execução: 0,00
+Valor do Contrato: 15.455,00 IR s/ Corret.: 0,00 Corret. Clearing: -77,27
+Valor Líquido -80,34
+Lado: Tomador Abertura: 05/02/2024 Valor Liquidação: 15.603,00
+Contrato: 2024020500558940150001-1 Vencimento: 12/03/2024 Remuneração: -0,11
+Taxa: 0,09% Qtd. Atual: 0 Emolumentos: -0,09
+Papel: EMBR3 Qtd. Original: 700 I.R.R.F:
+Contraparte Vinc?: N Qtd. Liquidação: 700 Corret. Execução: 0,00
+Valor do Contrato: 15.603,00 IR s/ Corret.: 0,00 Corret. Clearing: 0,00
+Valor Líquido -0,20
+Resumo Financeiro
+Valor Bruto -2,30
+Emolumentos -0,97
+I.R.R.F 0,00
+Execução 0,00
+Clearing -77,27
+Valor Líquido -80,54

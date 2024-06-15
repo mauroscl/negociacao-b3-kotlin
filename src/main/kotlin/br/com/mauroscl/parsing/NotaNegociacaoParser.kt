@@ -1,18 +1,15 @@
 package br.com.mauroscl.parsing
 
-import br.com.mauroscl.infra.LoggerDelegate
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.regex.Pattern
 
 @ApplicationScoped
-class NotaNegociacaoParser(@Inject var identificadorMercado: IdentificadorMercado) {
+class NotaNegociacaoParser(private val identificadorMercado: IdentificadorMercado) {
 
-    private val pattern = Pattern.compile(regex)
-    private val logger by LoggerDelegate()
-    fun parse(paginas: List<String>): NotaNegociacao {
+    private val pattern = Pattern.compile(REGEX)
+    fun parse(paginas: Collection<String>): NotaNegociacao {
         val primeiraPagina = paginas.first()
         val data = parsearData(primeiraPagina)
         val notaNegociacao = NotaNegociacao(data)
@@ -37,7 +34,7 @@ class NotaNegociacaoParser(@Inject var identificadorMercado: IdentificadorMercad
 
     companion object {
         private const val DATA_REGEX = "\\d{2}\\/\\d{2}\\/\\d{4}"
-        private const val regex = "\\d+\\s\\d\\s($DATA_REGEX)"
+        private const val REGEX = "\\d+\\s\\d\\s($DATA_REGEX)"
 
         private val PAGINA_PARSER_MAP = mapOf(
             Mercado.AVISTA to
