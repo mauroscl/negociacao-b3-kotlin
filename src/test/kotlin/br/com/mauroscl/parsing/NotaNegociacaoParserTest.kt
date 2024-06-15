@@ -3,7 +3,6 @@ package br.com.mauroscl.parsing
 import assertk.assertThat
 import assertk.assertions.hasSize
 import assertk.assertions.isEqualByComparingTo
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import java.time.LocalDate

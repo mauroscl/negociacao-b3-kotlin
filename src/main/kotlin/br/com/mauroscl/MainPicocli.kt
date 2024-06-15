@@ -8,7 +8,7 @@ import picocli.CommandLine.Command
 
 
 @QuarkusMain
-@Command(name = "negociacao", subcommands = [ParserCommand::class, ProcessarCommand::class])
+@Command(name = "negociacao", subcommands = [ParserCommand::class, ProcessarCommand::class, ParserAluguelCommand::class])
 class MainPicocli : QuarkusApplication {
 
     @Inject

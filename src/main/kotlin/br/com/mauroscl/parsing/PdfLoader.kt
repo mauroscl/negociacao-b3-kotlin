@@ -32,7 +32,7 @@ class PdfLoader() {
                     paginas.add(textForRegion)
                     stripper.removeRegion(regionName)
                 }
-                return paginas;
+                return paginas
             }
         } catch (e: IOException) {
             throw RuntimeException("Erro ao carregar arquivo", e)

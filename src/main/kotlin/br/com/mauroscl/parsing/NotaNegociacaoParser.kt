@@ -8,7 +8,7 @@ import java.util.regex.Pattern
 @ApplicationScoped
 class NotaNegociacaoParser(private val identificadorMercado: IdentificadorMercado) {
 
-    private val pattern = Pattern.compile(regex)
+    private val pattern = Pattern.compile(REGEX)
     fun parse(paginas: Collection<String>): NotaNegociacao {
         val primeiraPagina = paginas.first()
         val data = parsearData(primeiraPagina)
@@ -34,7 +34,7 @@ class NotaNegociacaoParser(private val identificadorMercado: IdentificadorMercad
 
     companion object {
         private const val DATA_REGEX = "\\d{2}\\/\\d{2}\\/\\d{4}"
-        private const val regex = "\\d+\\s\\d\\s($DATA_REGEX)"
+        private const val REGEX = "\\d+\\s\\d\\s($DATA_REGEX)"
 
         private val PAGINA_PARSER_MAP = mapOf(
             Mercado.AVISTA to
