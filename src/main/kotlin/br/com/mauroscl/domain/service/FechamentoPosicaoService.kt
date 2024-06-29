@@ -1,5 +1,10 @@
-package br.com.mauroscl.model
+package br.com.mauroscl.domain.service
 
+import br.com.mauroscl.domain.model.FechamentoPosicao
+import br.com.mauroscl.domain.model.PrecoMedio
+import br.com.mauroscl.domain.model.Saldo
+import br.com.mauroscl.domain.model.Sentido
+import br.com.mauroscl.parsing.Mercado
 import br.com.mauroscl.parsing.NegocioRealizado
 import br.com.mauroscl.parsing.PrazoNegociacao
 import br.com.mauroscl.parsing.TipoNegociacao
@@ -9,13 +14,18 @@ import kotlin.math.sign
 
 class FechamentoPosicaoService {
     companion object {
-        fun avaliar(data: LocalDate,  negocio: NegocioRealizado, saldoAtual: Saldo): FechamentoPosicao? {
+        fun avaliar(data: LocalDate,  negocio: NegocioRealizado, saldoAtual: Saldo, mercado: Mercado): FechamentoPosicao? {
             return if (gerarFechamentoPosicao(saldoAtual.quantidade, negocio.quantidadeComSinal)) {
                 val quantidadeParaFechar = minOf(saldoAtual.quantidade.absoluteValue, negocio.quantidade)
                 val precoMedio = obterPrecoMedio(negocio, saldoAtual)
+                val sentido = Sentido.obterPorSaldo(saldoAtual.quantidade)
+                if (sentido == Sentido.SHORT && mercado == Mercado.AVISTA ) {
+                    throw NotImplementedError("É necessário buscar os custos de aluguel")
+                }
                 FechamentoPosicao(
                     data,
                     negocio.prazo,
+                    sentido,
                     saldoAtual.titulo,
                     quantidadeParaFechar,
                     precoMedio.compra,
@@ -29,7 +39,8 @@ class FechamentoPosicaoService {
                 .groupBy { negocio -> DayTradeChave(negocio.titulo, negocio.quantidade ) }
                 .map { entry ->
                     val precoMedio = obterPrecoMedio(entry.value)
-                    FechamentoPosicao(data, PrazoNegociacao.DAYTRADE, entry.key.titulo , entry.key.quantidade, precoMedio.compra, precoMedio.venda )
+                    val sentido = entry.value.first().tipo.sentido
+                    FechamentoPosicao(data, PrazoNegociacao.DAYTRADE, sentido, entry.key.titulo , entry.key.quantidade, precoMedio.compra, precoMedio.venda )
                 }
         }
 
@@ -54,4 +65,5 @@ class FechamentoPosicaoService {
         data class DayTradeChave(val titulo: String, val quantidade: Int)
 
     }
+
 }

@@ -1,9 +1,10 @@
-package br.com.mauroscl.model
+package br.com.mauroscl.domain.model
 
 import assertk.assertThat
 import assertk.assertions.isEqualByComparingTo
 import assertk.assertions.isEqualTo
 import assertk.assertions.isZero
+import br.com.mauroscl.domain.model.Saldo
 import br.com.mauroscl.parsing.NegocioRealizado
 import br.com.mauroscl.parsing.PrazoNegociacao
 import br.com.mauroscl.parsing.TipoNegociacao

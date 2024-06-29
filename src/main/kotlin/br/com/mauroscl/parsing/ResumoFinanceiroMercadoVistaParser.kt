@@ -37,7 +37,7 @@ class ResumoFinanceiroMercadoVistaParser {
     }
 
     private fun obterTaxaOperacional(conteudo: String): BigDecimal {
-        val expressao = "Taxa Operacional$NUMERO_CREDITO_DEBITO_REGEX"
+        val expressao = "Taxa Operacional$NUMERO_CREDITO_DEBITO_OPCIONAL_REGEX"
         return obterNumeroComSinalOpcional(conteudo, expressao)
     }
 

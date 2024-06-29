@@ -3,8 +3,8 @@ package br.com.mauroscl.service
 import br.com.mauroscl.infra.FechamentoPosicaoRepository
 import br.com.mauroscl.infra.NotaNegociacaoRepository
 import br.com.mauroscl.infra.SaldoRepository
-import br.com.mauroscl.model.FechamentoPosicaoService
-import br.com.mauroscl.model.Saldo
+import br.com.mauroscl.domain.service.FechamentoPosicaoService
+import br.com.mauroscl.domain.model.Saldo
 import br.com.mauroscl.parsing.NotaNegociacao
 import br.com.mauroscl.parsing.PrazoNegociacao
 import jakarta.enterprise.context.ApplicationScoped
@@ -41,7 +41,7 @@ class ProcessamentoNotaService (
                     val saldoAtual = saldoRepository.obterPorTitulo(negocio.titulo)
                         ?: Saldo.zerado(negocio.titulo)
 
-                    val fechamentoPosicao = FechamentoPosicaoService.avaliar(nota.data, negocio, saldoAtual)
+                    val fechamentoPosicao = FechamentoPosicaoService.avaliar(nota.data, negocio, saldoAtual, pagina.mercado)
 
                     SaldoService.atualizarSaldo(saldoAtual, negocio, fechamentoPosicao)
 

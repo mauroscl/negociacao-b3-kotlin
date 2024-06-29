@@ -1,4 +1,4 @@
-package br.com.mauroscl.model
+package br.com.mauroscl.domain.model
 
 import java.math.BigDecimal
 

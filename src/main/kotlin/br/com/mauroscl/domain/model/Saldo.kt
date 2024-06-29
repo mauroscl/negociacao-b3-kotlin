@@ -1,4 +1,4 @@
-package br.com.mauroscl.model
+package br.com.mauroscl.domain.model
 
 import br.com.mauroscl.parsing.NegocioRealizado
 import org.bson.codecs.pojo.annotations.BsonCreator

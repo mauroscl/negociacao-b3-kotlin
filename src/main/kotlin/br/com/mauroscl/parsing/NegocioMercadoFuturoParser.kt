@@ -11,7 +11,7 @@ class NegocioMercadoFuturoParser internal constructor() {
     fun parse(negociacao: String): NegocioRealizado? {
         val matcher = pattern.matcher(negociacao)
         if (!matcher.find() || matcher.groupCount() != 14) {
-            println("Não foi possivel detectar o tipo de negociação: $negociacao")
+            println("Não foi possível detectar o tipo de negociação: $negociacao")
             throw FormatoInformacaoDesconhecidoException("Não foi possível detectar o tipo de negociação de mercado futuro.")
         }
         val prazoNegociacaoLiteral = matcher.group(9)
@@ -67,11 +67,11 @@ class NegocioMercadoFuturoParser internal constructor() {
                 "(" + CODIGO_ATIVO_REGEX + ")\\s" +
                 "(" + CONTRATO_REGEX + ")\\s" +
                 "@?(" + DATA_REGEX + "\\s)?" +
-                "(" + NUMERO_INTEIRO_REGEX + ")\\s" +
+                "-?(" + NUMERO_INTEIRO_REGEX + ")\\s" +
                 "(" + NUMERO_DECIMAL_REGEX + ")\\s" +
                 "(" + TIPO_NEGOCIO_REGEX + ")\\s" +
                 "(" + NUMERO_DECIMAL_REGEX + ")\\s" +
-                "(" + CREDITO_DEBITO_REGEX + ")\\s" +
+                "(" + CREDITO_DEBITO_REGEX + "?)\\s" +
                 "(" + NUMERO_DECIMAL_REGEX + ")"
     }
 }
