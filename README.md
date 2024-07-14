@@ -104,3 +104,16 @@ Exemplo:
 ```shell
  java -jar ~/dev/outros/negociacao-b3-kotlin/build/quarkus-app/quarkus-run.jar processar-nota 2022-08-25
 ```
+
+## Processar notas de aluguel
+
+```shell
+java -jar build/quarkus-app/quarkus-run.jar parser-aluguel <caminho do arquivo> 
+```
+Exemplo:
+```shell
+java -jar build/quarkus-app/quarkus-run.jar parser-aluguel ~/negociacao/202204/NOTA_ALUGUEL.pdf
+``` 
+# Debug
+O debug não funciona rodando o Intellij no modo DEBUG.  
+Rodar em modo normal e depois ir no menu Run > Attach to process.

@@ -2,18 +2,29 @@ package br.com.mauroscl.domain.service
 
 import assertk.assertThat
 import assertk.assertions.*
+import br.com.mauroscl.domain.model.Ativo
 import br.com.mauroscl.domain.model.Saldo
 import br.com.mauroscl.domain.model.Sentido
-import br.com.mauroscl.parsing.Mercado
-import br.com.mauroscl.parsing.NegocioRealizado
-import br.com.mauroscl.parsing.PrazoNegociacao
-import br.com.mauroscl.parsing.TipoNegociacao
-import org.junit.jupiter.api.Disabled
+import br.com.mauroscl.infra.AtivoRepository
+import br.com.mauroscl.infra.OperacaoEmprestimoRepository
+import br.com.mauroscl.parsing.*
+import io.quarkus.test.junit.QuarkusTest
+import jakarta.inject.Inject
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
 import java.time.LocalDate
 
+@QuarkusTest
 class FechamentoPosicaoServiceTest {
+
+    @Inject
+    private lateinit var operacaoEmprestimoRepository: OperacaoEmprestimoRepository
+
+    @Inject
+    private lateinit var ativoRepository: AtivoRepository
+
+    @Inject
+    private lateinit var fechamentoPosicaoService: FechamentoPosicaoService
 
     @Test
     fun `nao deve fechar posicao quando saldo estiver zerado`() {
@@ -26,7 +37,8 @@ class FechamentoPosicaoServiceTest {
             BigDecimal(50)
         )
 
-        val fechamentoPosicao = FechamentoPosicaoService.avaliar(LocalDate.now(), negocioRealizado, saldo, Mercado.AVISTA)
+        val fechamentoPosicao =
+            fechamentoPosicaoService.avaliar(LocalDate.now(), negocioRealizado, saldo, Mercado.AVISTA)
 
         assertThat(fechamentoPosicao).isNull()
     }
@@ -42,7 +54,8 @@ class FechamentoPosicaoServiceTest {
             BigDecimal(50)
         )
 
-        val fechamentoPosicao = FechamentoPosicaoService.avaliar(LocalDate.now(), negocioRealizado, saldo, Mercado.AVISTA)
+        val fechamentoPosicao =
+            fechamentoPosicaoService.avaliar(LocalDate.now(), negocioRealizado, saldo, Mercado.AVISTA)
 
         assertThat(fechamentoPosicao).isNull()
     }
@@ -58,7 +71,8 @@ class FechamentoPosicaoServiceTest {
             BigDecimal(50)
         )
 
-        val fechamentoPosicao = FechamentoPosicaoService.avaliar(LocalDate.now(), negocioRealizado, saldo, Mercado.AVISTA)
+        val fechamentoPosicao =
+            fechamentoPosicaoService.avaliar(LocalDate.now(), negocioRealizado, saldo, Mercado.AVISTA)
 
         assertThat(fechamentoPosicao).isNull()
     }
@@ -75,7 +89,7 @@ class FechamentoPosicaoServiceTest {
         )
         negocioRealizado.adicionarCustos(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO)
 
-        assertThat(FechamentoPosicaoService.avaliar(LocalDate.of(2024, 6, 15), negocioRealizado, saldo, Mercado.AVISTA))
+        assertThat(fechamentoPosicaoService.avaliar(LocalDate.of(2024, 6, 15), negocioRealizado, saldo, Mercado.AVISTA))
             .isNotNull()
             .given {
                 assertThat(it.quantidade).isEqualTo(100)
@@ -98,7 +112,8 @@ class FechamentoPosicaoServiceTest {
         )
         negocioRealizado.adicionarCustos(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO)
 
-        val fechamentoPosicao = FechamentoPosicaoService.avaliar(LocalDate.now(), negocioRealizado, saldo, Mercado.AVISTA)
+        val fechamentoPosicao =
+            fechamentoPosicaoService.avaliar(LocalDate.now(), negocioRealizado, saldo, Mercado.AVISTA)
 
         assertThat(fechamentoPosicao).isNotNull()
             .given {
@@ -121,7 +136,8 @@ class FechamentoPosicaoServiceTest {
         )
         negocioRealizado.adicionarCustos(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO)
 
-        val fechamentoPosicao = FechamentoPosicaoService.avaliar(LocalDate.now(), negocioRealizado, saldo, Mercado.AVISTA)
+        val fechamentoPosicao =
+            fechamentoPosicaoService.avaliar(LocalDate.now(), negocioRealizado, saldo, Mercado.AVISTA)
 
         assertThat(fechamentoPosicao).isNotNull()
             .given {
@@ -133,8 +149,12 @@ class FechamentoPosicaoServiceTest {
     }
 
     @Test
-    @Disabled
     fun `deve fechar posicao de venda`() {
+        ativoRepository.persist(Ativo("PETR4", "PETROBRAS"))
+        operacaoEmprestimoRepository.persist(
+            OperacaoEmprestimo("PETR4", "Tomador", LocalDate.of(2024, 7, 1), BigDecimal(-30), 100, 100, 0),
+            OperacaoEmprestimo("PETR4", "Tomador", LocalDate.of(2024, 7, 3), BigDecimal(-15), 100, 100, 0)
+        )
         val saldo = Saldo("PETROBRAS", -100, BigDecimal(50))
         val negocioRealizado = NegocioRealizado.comValorOperacionalUnitario(
             "PETROBRAS",
@@ -145,16 +165,22 @@ class FechamentoPosicaoServiceTest {
         )
         negocioRealizado.adicionarCustos(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO)
 
-        val fechamentoPosicao = FechamentoPosicaoService.avaliar(LocalDate.now(), negocioRealizado, saldo, Mercado.AVISTA)
+        val fechamentoPosicao =
+            fechamentoPosicaoService.avaliar(LocalDate.of(2024, 7, 1), negocioRealizado, saldo, Mercado.AVISTA)
 
         assertThat(fechamentoPosicao).isNotNull()
             .given {
                 assertThat(it.quantidade).isEqualTo(100)
                 assertThat(it.precoMedioCompra).isEqualByComparingTo("40")
                 assertThat(it.precoMedioVenda).isEqualByComparingTo("50")
-                assertThat(it.resultado).isEqualByComparingTo("1000")
+                assertThat(it.resultado).isEqualByComparingTo("955")
+                assertThat(it.custoAluguel).isEqualByComparingTo("-45")
                 assertThat(it.sentido).isEqualTo(Sentido.SHORT)
             }
+        assertThat(operacaoEmprestimoRepository.findAll().list()).each { it.given { operacao -> assertThat(operacao.contabilizado).isTrue() } }
+
+        ativoRepository.deleteAll()
+        operacaoEmprestimoRepository.deleteAll();
     }
 
 
@@ -180,7 +206,7 @@ class FechamentoPosicaoServiceTest {
 
         val negocios = listOf(compra, venda)
 
-        val posicoesFechadas = FechamentoPosicaoService.fecharDayTrades(LocalDate.now(), negocios)
+        val posicoesFechadas = fechamentoPosicaoService.fecharDayTrades(LocalDate.now(), negocios)
 
         assertThat(posicoesFechadas).hasSize(1)
 
@@ -194,4 +220,5 @@ class FechamentoPosicaoServiceTest {
         assertThat(fechamentoAtual.resultado).isEqualByComparingTo("-309")
         assertThat(fechamentoAtual.sentido).isEqualTo(Sentido.LONG)
     }
+
 }

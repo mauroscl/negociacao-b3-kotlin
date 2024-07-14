@@ -15,7 +15,8 @@ import java.time.LocalDate
 class ProcessamentoNotaService (
     private val notaNegociacaoRepository: NotaNegociacaoRepository,
     private val fechamentoPosicaoRepository: FechamentoPosicaoRepository,
-    private val saldoRepository: SaldoRepository
+    private val saldoRepository: SaldoRepository,
+    private val fechamentoPosicaoService: FechamentoPosicaoService
 ) : IProcessamentoNotaService {
     override fun processar(nota: NotaNegociacao) = processarNota(nota)
 
@@ -32,7 +33,7 @@ class ProcessamentoNotaService (
             val dayTrades = pagina.obterNegocios(PrazoNegociacao.DAYTRADE)
 
             if (dayTrades.isNotEmpty()) {
-                val fechamentos = FechamentoPosicaoService.fecharDayTrades(nota.data, dayTrades)
+                val fechamentos = fechamentoPosicaoService.fecharDayTrades(nota.data, dayTrades)
                 fechamentoPosicaoRepository.persist(fechamentos)
             }
 
@@ -41,7 +42,7 @@ class ProcessamentoNotaService (
                     val saldoAtual = saldoRepository.obterPorTitulo(negocio.titulo)
                         ?: Saldo.zerado(negocio.titulo)
 
-                    val fechamentoPosicao = FechamentoPosicaoService.avaliar(nota.data, negocio, saldoAtual, pagina.mercado)
+                    val fechamentoPosicao = fechamentoPosicaoService.avaliar(nota.data, negocio, saldoAtual, pagina.mercado)
 
                     SaldoService.atualizarSaldo(saldoAtual, negocio, fechamentoPosicao)
 
