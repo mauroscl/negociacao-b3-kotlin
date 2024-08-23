@@ -164,7 +164,7 @@ class ResumoFinanceiroMercadoFuturoParser {
                 + IRRF_NORMAL_GROUP_NAME
                 + ">"
                 + NUMERO_DECIMAL_REGEX
-                + ")\\|[CD]?\\s(?<"
+                + ")\\|[CD]?\\s+(?<"
                 + IRRF_DAYTRADE_GROUP_NAME
                 + ">"
                 + NUMERO_DECIMAL_REGEX

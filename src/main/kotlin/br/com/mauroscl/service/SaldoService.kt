@@ -1,7 +1,7 @@
 package br.com.mauroscl.service
 
-import br.com.mauroscl.model.FechamentoPosicao
-import br.com.mauroscl.model.Saldo
+import br.com.mauroscl.domain.model.FechamentoPosicao
+import br.com.mauroscl.domain.model.Saldo
 import br.com.mauroscl.parsing.NegocioRealizado
 
 internal class SaldoService {

@@ -39,6 +39,9 @@ class ParserCommand(private val importadorNota: ImportadorNota, private val proc
             }
         } catch (ex: Exception) {
             logger.error("Erro ao processar nota {}", arquivo, ex)
+            println("Erro ao processar nota $arquivo")
+            println(ex.message)
+            println(ex.stackTrace)
             exitProcess(1)
         }
     }

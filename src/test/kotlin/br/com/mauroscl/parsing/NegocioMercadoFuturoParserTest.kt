@@ -32,6 +32,14 @@ internal class NegocioMercadoFuturoParserTest {
     }
 
     @Test
+    fun deveReconhecerAjusteDePosicaoComQuantidadeNegativa() {
+        val parser = NegocioMercadoFuturoParser()
+        val negocioRealizado = parser.parse("V WDO H23 01/03/2023 -2 5.218,01 AJUPOS 301,42 D 0,00")
+        assertThat(negocioRealizado).isNull()
+    }
+
+
+    @Test
     fun deveGerarErroAoParsearNegociacaoComQuantidadeCampoCamposInvalida() {
         val parser = NegocioMercadoFuturoParser()
         assertFailure { parser.parse("CAMPO_ADICIONAL C WDO H20 02/03/2020 1 4.498,7000 AJUPOS 0,00 C 0,00") }

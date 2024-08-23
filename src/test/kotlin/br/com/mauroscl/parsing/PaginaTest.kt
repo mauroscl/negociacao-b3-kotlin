@@ -4,6 +4,7 @@ import assertk.assertThat
 import assertk.assertions.hasSize
 import assertk.assertions.isEqualByComparingTo
 import assertk.assertions.isEqualTo
+import assertk.assertions.isZero
 import br.com.mauroscl.parsing.NegocioRealizado.Companion.comValorOperacionalTotal
 import br.com.mauroscl.parsing.Pagina.Companion.comResumoFinanceiro
 import org.junit.jupiter.api.Test
@@ -164,5 +165,70 @@ internal class PaginaTest {
         assertThat(nc3.outrosCustos).isEqualByComparingTo("2.82")
         assertThat(nc3.valorLiquidacao).isEqualByComparingTo("9206.34")
         assertThat(nc3.valorLiquidacaoUnitario).isEqualByComparingTo("18.41268")
+    }
+
+    /*
+    Cenário baseado na nota 65709698 de 13/04/2023.
+    Os dois negócios estão marcados como day trade, mas com quantidades diferentes: venda = 2000 e compra = 1000
+    Isto tem que ser ajustado para que apenas 1000 deste total seja considerados como DAY TRADE e os outros 1000 sejam
+    considerados como um novo negócio de POSICAO de venda.
+     */
+    @Test
+    fun deveSepararNegociosDePosicaoDeNegociosDeDaytrade() {
+        val venda = comValorOperacionalTotal(
+            "GRUPO SBF ON NM", TipoNegociacao.VENDA, PrazoNegociacao.DAYTRADE, 2000, BigDecimal.valueOf(16620)
+        )
+        val compra = comValorOperacionalTotal(
+            "GRUPO SBF ON NM", TipoNegociacao.COMPRA, PrazoNegociacao.DAYTRADE, 1000, BigDecimal.valueOf(8300)
+        )
+
+        val resumoFinanceiro = ResumoFinanceiro(
+            BigDecimal.valueOf(8320),
+            BigDecimal.valueOf(8313.66),
+            BigDecimal.ZERO,
+            false, BigDecimal.valueOf(0.41),
+            BigDecimal.valueOf(0.05),
+            BigDecimal.ZERO
+        )
+
+        val pagina = comResumoFinanceiro(Mercado.AVISTA, resumoFinanceiro)
+        pagina.adicionarNegocios(listOf(venda, compra))
+        val notaNegociacao = NotaNegociacao(LocalDate.now())
+        notaNegociacao.adicionarPagina(pagina)
+        notaNegociacao.unificarPaginas()
+
+        val paginaComCustos: Pagina = notaNegociacao.paginas[0]
+        val negocios = paginaComCustos.obterNegocios()
+        assertThat(negocios).hasSize(3)
+
+        val daytradeCompra = negocios[0]
+        assertThat(daytradeCompra.tipo).isEqualTo(TipoNegociacao.COMPRA)
+        assertThat(daytradeCompra.prazo).isEqualTo(PrazoNegociacao.DAYTRADE)
+        assertThat(daytradeCompra.valorOperacional).isEqualByComparingTo("8300")
+        assertThat(daytradeCompra.taxaOperacional).isZero()
+        assertThat(daytradeCompra.valorImpostos).isZero()
+        assertThat(daytradeCompra.outrosCustos).isEqualByComparingTo("2.09")
+        assertThat(daytradeCompra.valorLiquidacao).isEqualByComparingTo("8302.09")
+        assertThat(daytradeCompra.valorLiquidacaoUnitario).isEqualByComparingTo("8.30209")
+
+        val daytradeVenda = negocios[1]
+        assertThat(daytradeVenda.tipo).isEqualTo(TipoNegociacao.VENDA)
+        assertThat(daytradeVenda.prazo).isEqualTo(PrazoNegociacao.DAYTRADE)
+        assertThat(daytradeVenda.valorOperacional).isEqualByComparingTo("8310")
+        assertThat(daytradeVenda.taxaOperacional).isZero()
+        assertThat(daytradeVenda.valorImpostos).isZero()
+        assertThat(daytradeVenda.outrosCustos).isEqualByComparingTo("2.10")
+        assertThat(daytradeVenda.valorLiquidacao).isEqualByComparingTo("8307.90")
+        assertThat(daytradeVenda.valorLiquidacaoUnitario).isEqualByComparingTo("8.3079")
+
+        val posicaoVenda = negocios[2]
+        assertThat(posicaoVenda.tipo).isEqualTo(TipoNegociacao.VENDA)
+        assertThat(posicaoVenda.prazo).isEqualTo(PrazoNegociacao.POSICAO)
+        assertThat(posicaoVenda.valorOperacional).isEqualByComparingTo("8310")
+        assertThat(posicaoVenda.taxaOperacional).isZero()
+        assertThat(posicaoVenda.valorImpostos).isZero()
+        assertThat(posicaoVenda.outrosCustos).isEqualByComparingTo("2.10")
+        assertThat(posicaoVenda.valorLiquidacao).isEqualByComparingTo("8307.90")
+        assertThat(posicaoVenda.valorLiquidacaoUnitario).isEqualByComparingTo("8.3079")
     }
 }

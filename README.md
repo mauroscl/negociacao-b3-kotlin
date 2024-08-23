@@ -62,7 +62,7 @@ dbrs [direct: primary] admin> adminDB.createUser({
 ## Fazer backup
 
 ```shell
-docker exec mongo sh -c 'exec mongodump --uri="mongodb://superuser:superuser@localhost:27017/?replicaSet=rs0" --authenticationDatabase=admin -d negociacao-b3 --archive' > /home/mauro/negociacao/dumps/negociacao-b3-202212.archive
+docker exec mongo sh -c 'exec mongodump --uri="mongodb://superuser:superuser@localhost:27017/?replicaSet=dbrs" --authenticationDatabase=admin -d negociacao-b3 --archive' > /home/mauro/negociacao/dumps/negociacao-b3-202212.archive
 ```
 
 ## Restaurar backup 
@@ -104,3 +104,16 @@ Exemplo:
 ```shell
  java -jar ~/dev/outros/negociacao-b3-kotlin/build/quarkus-app/quarkus-run.jar processar-nota 2022-08-25
 ```
+
+## Processar notas de aluguel
+
+```shell
+java -jar build/quarkus-app/quarkus-run.jar parser-aluguel <caminho do arquivo> 
+```
+Exemplo:
+```shell
+java -jar build/quarkus-app/quarkus-run.jar parser-aluguel ~/negociacao/202204/NOTA_ALUGUEL.pdf
+``` 
+# Debug
+O debug não funciona rodando o Intellij no modo DEBUG.  
+Rodar em modo normal e depois ir no menu Run > Attach to process.

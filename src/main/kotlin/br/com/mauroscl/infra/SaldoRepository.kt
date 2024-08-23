@@ -1,6 +1,6 @@
 package br.com.mauroscl.infra
 
-import br.com.mauroscl.model.Saldo
+import br.com.mauroscl.domain.model.Saldo
 import io.quarkus.mongodb.panache.kotlin.PanacheMongoRepository
 import jakarta.enterprise.context.ApplicationScoped
 

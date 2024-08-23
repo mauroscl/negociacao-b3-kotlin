@@ -36,6 +36,6 @@ class NotaNegociacao @BsonCreator internal constructor(
             paginaUnificada.agruparNegocios()
             paginaUnificada.ratearCustos()
         }
-        paginas = paginasUnificadas
+        this.paginas = paginasUnificadas
     }
 }

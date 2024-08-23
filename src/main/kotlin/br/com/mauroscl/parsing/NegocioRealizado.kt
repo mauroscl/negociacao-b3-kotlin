@@ -1,6 +1,7 @@
 package br.com.mauroscl.parsing
 
 import org.bson.codecs.pojo.annotations.BsonCreator
+import org.bson.codecs.pojo.annotations.BsonIgnore
 import org.bson.codecs.pojo.annotations.BsonProperty
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -16,7 +17,7 @@ class NegocioRealizado @BsonCreator internal constructor(
     @BsonProperty("valorOperacional") val valorOperacional: BigDecimal
 ) {
     @BsonProperty("titulo")
-    val titulo: String = titulo.replace(Regex("\\sE(DJ|D|J)"), "")
+    val titulo: String = titulo.replace(Regex("\\sE(DJ|D|J)(\\s|\$)")) { it.groups[2]?.value ?: "" }
 
     @BsonProperty("valorOperacionalEmMoeda")
     val valorOperacionalEmMoeda: BigDecimal
@@ -85,12 +86,14 @@ class NegocioRealizado @BsonCreator internal constructor(
             valorOperacionalEmMoeda.subtract(custoTotal)
         }
         if (quantidade > 0) {
-            valorLiquidacaoUnitario = valorLiquidacao.divide(BigDecimal(quantidade), 10, RoundingMode.HALF_UP)
+            valorLiquidacaoUnitario = valorLiquidacao.divide(this.quantidade.toBigDecimal(), 10, RoundingMode.HALF_UP)
         }
     }
 
-    val quantidadeComSinal get() = if (this.tipo == TipoNegociacao.COMPRA) this.quantidade else - this.quantidade
-    val valorLiquidacaoComSinal get() = if (this.tipo == TipoNegociacao.COMPRA) this.valorLiquidacao else - this.valorLiquidacao
+    fun getQuantidadeComSinal() = if (this.tipo.inverterSinal) this.quantidade.unaryMinus() else this.quantidade
+    fun getvalorLiquidacaoComSinal() = if (this.tipo.inverterSinal) this.valorLiquidacao.unaryMinus() else this.valorLiquidacao
+    @BsonIgnore
+    fun getValorOperacionalUnitario(): BigDecimal = this.valorOperacional.divide(this.quantidade.toBigDecimal())
 
     override fun toString(): String {
         val numberFormat = NumberFormat.getInstance(Locale.forLanguageTag("pt-BR"))
