@@ -62,7 +62,7 @@ dbrs [direct: primary] admin> adminDB.createUser({
 ## Fazer backup
 
 ```shell
-docker exec mongo sh -c 'exec mongodump --uri="mongodb://superuser:superuser@localhost:27017/?replicaSet=rs0" --authenticationDatabase=admin -d negociacao-b3 --archive' > /home/mauro/negociacao/dumps/negociacao-b3-202212.archive
+docker exec mongo sh -c 'exec mongodump --uri="mongodb://superuser:superuser@localhost:27017/?replicaSet=dbrs" --authenticationDatabase=admin -d negociacao-b3 --archive' > /home/mauro/negociacao/dumps/negociacao-b3-202212.archive
 ```
 
 ## Restaurar backup 

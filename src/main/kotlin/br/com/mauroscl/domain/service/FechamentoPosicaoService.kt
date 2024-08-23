@@ -22,7 +22,7 @@ class FechamentoPosicaoService(
     private val ativoRepository: AtivoRepository
 ) {
     fun avaliar(data: LocalDate, negocio: NegocioRealizado, saldoAtual: Saldo, mercado: Mercado): FechamentoPosicao? {
-        return if (gerarFechamentoPosicao(saldoAtual.quantidade, negocio.quantidadeComSinal)) {
+        return if (gerarFechamentoPosicao(saldoAtual.quantidade, negocio.getQuantidadeComSinal())) {
             val quantidadeParaFechar = minOf(saldoAtual.quantidade.absoluteValue, negocio.quantidade)
             val precoMedio = obterPrecoMedio(negocio, saldoAtual)
             val sentido = Sentido.obterPorSaldo(saldoAtual.quantidade)
@@ -30,12 +30,16 @@ class FechamentoPosicaoService(
             if (sentido == Sentido.SHORT && mercado == Mercado.AVISTA) {
                 val ativo = ativoRepository.obterPorNome(saldoAtual.titulo)
                     ?: throw RuntimeException("Ativo não encontrado: ${saldoAtual.titulo}")
-                val naoContabilizadas = operacaoEmprestimoRepository.obterNaoContabilizados(ativo.codigo)
+                val dataLiquidacao = LiquidacaoService.calcularData(data)
+                val naoContabilizadas = operacaoEmprestimoRepository.obterNaoContabilizados(ativo.codigo, dataLiquidacao)
                 if (naoContabilizadas.isEmpty()) {
-                    throw RuntimeException("Aluguel não encontrado para a posição de venda em ${saldoAtual.titulo}")
+                    throw RuntimeException("Aluguel não encontrado para a posição de venda - titulo: ${ativo.codigo} - liquidação: $dataLiquidacao")
                 }
-                if (naoContabilizadas.any { it.quantidadeLiquidacao != quantidadeParaFechar }) {
-                    throw RuntimeException("Quantidade para fechar e quantidade de aluguel divergentes")
+                val emprestimoPorData = naoContabilizadas.groupBy { it.dataLiquidacao }.map { g -> g.key to g.value.sumOf { it.quantidadeLiquidacao } }.toMap()
+                val quantidadeDivergentes = emprestimoPorData.filter { it.value != quantidadeParaFechar }.toList()
+                if (quantidadeDivergentes.isNotEmpty()) {
+                    val primeiraDivergencia = quantidadeDivergentes.toList().first()
+                    throw RuntimeException("Quantidade para fechar e quantidade de aluguel divergentes - data: ${primeiraDivergencia.first} - titulo: ${saldoAtual.titulo} - fechar: $quantidadeParaFechar - aluguel: ${primeiraDivergencia.second}")
                 }
                 custoAluguel = naoContabilizadas.sumOf { it.valorLiquido }
                 naoContabilizadas.forEach {

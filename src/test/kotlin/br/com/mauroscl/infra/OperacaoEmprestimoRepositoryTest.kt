@@ -22,7 +22,7 @@ class OperacaoEmprestimoRepositoryTest{
         op1.marcarComoContabilizado();
         val op2 = OperacaoEmprestimo("PETR4", "Tomador", LocalDate.of(2024, 7, 6), BigDecimal(5.50), 300, 300, 0)
         repository.persist(op1, op2)
-        val naoContabilizados = repository.obterNaoContabilizados("PETR4")
+        val naoContabilizados = repository.obterNaoContabilizados("PETR4", LocalDate.of(2024, 7, 8))
         assertThat(naoContabilizados).hasSize(1)
         assertThat(naoContabilizados[0].contabilizado).isFalse()
         repository.deleteAll();

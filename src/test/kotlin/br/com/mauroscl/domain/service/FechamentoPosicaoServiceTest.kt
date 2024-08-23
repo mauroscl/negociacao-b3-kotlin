@@ -10,6 +10,7 @@ import br.com.mauroscl.infra.OperacaoEmprestimoRepository
 import br.com.mauroscl.parsing.*
 import io.quarkus.test.junit.QuarkusTest
 import jakarta.inject.Inject
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -25,6 +26,12 @@ class FechamentoPosicaoServiceTest {
 
     @Inject
     private lateinit var fechamentoPosicaoService: FechamentoPosicaoService
+
+    @AfterEach
+    fun limparBanco(){
+        ativoRepository.deleteAll()
+        operacaoEmprestimoRepository.deleteAll();
+    }
 
     @Test
     fun `nao deve fechar posicao quando saldo estiver zerado`() {
@@ -179,8 +186,6 @@ class FechamentoPosicaoServiceTest {
             }
         assertThat(operacaoEmprestimoRepository.findAll().list()).each { it.given { operacao -> assertThat(operacao.contabilizado).isTrue() } }
 
-        ativoRepository.deleteAll()
-        operacaoEmprestimoRepository.deleteAll();
     }
 
 

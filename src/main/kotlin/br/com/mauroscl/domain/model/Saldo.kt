@@ -27,8 +27,8 @@ class Saldo @BsonCreator constructor(
         atualizarValorTotal()
     }
     fun aumentarPosicao(negocio: NegocioRealizado) {
-        this.quantidade += negocio.quantidadeComSinal
-        this.precoMedio = valorTotal.add(negocio.valorLiquidacaoComSinal).divide(quantidadeAsBigDecimal, 10, RoundingMode.HALF_UP)
+        this.quantidade += negocio.getQuantidadeComSinal()
+        this.precoMedio = valorTotal.add(negocio.getvalorLiquidacaoComSinal()).divide(quantidadeAsBigDecimal, 10, RoundingMode.HALF_UP)
         atualizarValorTotal()
     }
 
@@ -36,7 +36,7 @@ class Saldo @BsonCreator constructor(
         if (negocio.quantidade > this.quantidade.absoluteValue) {
             this.precoMedio = negocio.valorLiquidacaoUnitario
         }
-        this.quantidade += negocio.quantidadeComSinal
+        this.quantidade += negocio.getQuantidadeComSinal()
         if (this.quantidade == 0) {
             this.precoMedio = BigDecimal.ZERO
         }

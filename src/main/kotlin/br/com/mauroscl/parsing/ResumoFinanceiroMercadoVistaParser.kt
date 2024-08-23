@@ -11,7 +11,7 @@ class ResumoFinanceiroMercadoVistaParser {
         val valorNota = obterValorNota(conteudo)
         val taxaOperacional = obterTaxaOperacional(conteudo).abs()
         val valorIrrfComSinal = obterValorIrrfNormal(conteudo)
-        val irrfNormalParticipaDoCusto = valorIrrfComSinal.compareTo(BigDecimal.ZERO) < 0
+        val irrfNormalParticipaDoCusto = valorIrrfComSinal < BigDecimal.ZERO
         val valorIrrfNormal = valorIrrfComSinal.abs()
         val valorIrrfDayTrade = obterValorIrrfDayTrade(conteudo)
         val valorImpostos = obterValorImpostos(conteudo)

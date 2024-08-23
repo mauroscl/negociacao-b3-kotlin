@@ -2,10 +2,9 @@ package br.com.mauroscl.parsing
 
 import br.com.mauroscl.domain.model.Sentido
 
-enum class TipoNegociacao(val codigo: String, val sentido: Sentido) {
-    COMPRA("C", Sentido.LONG),
-    VENDA("V", Sentido.SHORT);
-
+enum class TipoNegociacao(val codigo: String, val sentido: Sentido, val inverterSinal: Boolean) {
+    COMPRA("C", Sentido.LONG, false),
+    VENDA("V", Sentido.SHORT, true);
     companion object {
         fun criarPorCodigo(codigo: String): TipoNegociacao {
             return entries

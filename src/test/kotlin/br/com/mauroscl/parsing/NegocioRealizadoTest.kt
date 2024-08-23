@@ -69,7 +69,8 @@ internal class NegocioRealizadoTest {
             Arguments.of("SUZANO S.A. ON NM", "SUZANO S.A. ON NM"),
             Arguments.of("CEMIG ON N1", "CEMIG ON N1"),
             Arguments.of("COCA COLA DRN", "COCA COLA DRN"),
-            Arguments.of("INTELBRAS ON NM", "INTELBRAS ON NM")
+            Arguments.of("INTELBRAS ON NM", "INTELBRAS ON NM"),
+            Arguments.of("SER EDUCA ON NM", "SER EDUCA ON NM")
         )
 
     }
