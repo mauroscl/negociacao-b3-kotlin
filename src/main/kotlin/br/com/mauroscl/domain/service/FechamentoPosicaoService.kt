@@ -5,6 +5,7 @@ import br.com.mauroscl.domain.model.PrecoMedio
 import br.com.mauroscl.domain.model.Saldo
 import br.com.mauroscl.domain.model.Sentido
 import br.com.mauroscl.infra.AtivoRepository
+import br.com.mauroscl.infra.FeriadoRepository
 import br.com.mauroscl.infra.OperacaoEmprestimoRepository
 import br.com.mauroscl.parsing.Mercado
 import br.com.mauroscl.parsing.NegocioRealizado
@@ -19,7 +20,8 @@ import kotlin.math.sign
 @ApplicationScoped
 class FechamentoPosicaoService(
     private val operacaoEmprestimoRepository: OperacaoEmprestimoRepository,
-    private val ativoRepository: AtivoRepository
+    private val ativoRepository: AtivoRepository,
+    private val feriadoRepository: FeriadoRepository
 ) {
     fun avaliar(data: LocalDate, negocio: NegocioRealizado, saldoAtual: Saldo, mercado: Mercado): FechamentoPosicao? {
         return if (gerarFechamentoPosicao(saldoAtual.quantidade, negocio.getQuantidadeComSinal())) {
@@ -30,7 +32,8 @@ class FechamentoPosicaoService(
             if (sentido == Sentido.SHORT && mercado == Mercado.AVISTA) {
                 val ativo = ativoRepository.obterPorNome(saldoAtual.titulo)
                     ?: throw RuntimeException("Ativo não encontrado: ${saldoAtual.titulo}")
-                val dataLiquidacao = LiquidacaoService.calcularData(data)
+                val feriados = feriadoRepository.obterDesde(data)
+                val dataLiquidacao = LiquidacaoService.calcularData(data, feriados)
                 val naoContabilizadas = operacaoEmprestimoRepository.obterNaoContabilizados(ativo.codigo, dataLiquidacao)
                 if (naoContabilizadas.isEmpty()) {
                     throw RuntimeException("Aluguel não encontrado para a posição de venda - titulo: ${ativo.codigo} - liquidação: $dataLiquidacao")
