@@ -5,7 +5,8 @@ import java.math.BigDecimal
 import java.time.LocalDate
 
 class FechamentoPosicao(
-    val data: LocalDate,
+    val dataFechamento: LocalDate,
+    val dataLiquidacao: LocalDate,
     val prazo: PrazoNegociacao,
     val sentido: Sentido,
     val titulo: String,

@@ -51,7 +51,7 @@ class OperacaoEmprestimoParser {
                     ESPACO
                 )
             )
-            return Integer.parseInt(quantidade);
+            return Integer.parseInt(quantidade)
         }
 
         private val ESPACO = " "

@@ -31,7 +31,7 @@ You can opt-out by running the disableTelemetry() command.
 
 ```
 
- No monosh entrar no modo admin
+ No mongosh entrar no modo admin
 ```text
 dbrs [direct: primary] test> use admin
 switched to db admin

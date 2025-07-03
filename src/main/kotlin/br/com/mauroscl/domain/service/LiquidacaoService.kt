@@ -22,6 +22,6 @@ class LiquidacaoService {
         !feriados.any {it.data == data}
 
         private val WEEKEND_DAYS = listOf(DayOfWeek.SUNDAY, DayOfWeek.SATURDAY)
-        private val QUANTIDADE_DIAS_UTEIS_PARA_LIQUIDACAO = 2
+        private const val QUANTIDADE_DIAS_UTEIS_PARA_LIQUIDACAO = 2
     }
 }
