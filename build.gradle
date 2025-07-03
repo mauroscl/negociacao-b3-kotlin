@@ -1,6 +1,14 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+buildscript {
+    ext {
+        kotlinVersion = '2.1.20'
+    }
+}
+
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.9.23'
-    id "org.jetbrains.kotlin.plugin.allopen" version "1.9.23"
+    id 'org.jetbrains.kotlin.jvm' version "$kotlinVersion"
+    id "org.jetbrains.kotlin.plugin.allopen" version "$kotlinVersion"
     id 'io.quarkus'
 }
 
@@ -38,10 +46,10 @@ allOpen {
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_21
-    kotlinOptions.javaParameters = true
+    compilerOptions.setJvmTarget(JvmTarget.JVM_21)
+    compilerOptions.setJavaParameters(true)
 }
 
 compileTestKotlin {
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_21
+    compilerOptions.setJvmTarget(JvmTarget.JVM_21)
 }

@@ -211,12 +211,13 @@ class FechamentoPosicaoServiceTest {
 
         val negocios = listOf(compra, venda)
 
-        val posicoesFechadas = fechamentoPosicaoService.fecharDayTrades(LocalDate.now(), negocios)
+        val posicoesFechadas = fechamentoPosicaoService.fecharDayTrades(LocalDate.of(2025,5,21), negocios)
 
         assertThat(posicoesFechadas).hasSize(1)
 
         val fechamentoAtual = posicoesFechadas[0]
-        assertThat(fechamentoAtual.data).isEqualTo(LocalDate.now())
+        assertThat(fechamentoAtual.dataFechamento).isEqualTo(LocalDate.of(2025,5,21))
+        assertThat(fechamentoAtual.dataLiquidacao).isEqualTo(LocalDate.of(2025,5,23))
         assertThat(fechamentoAtual.titulo).isEqualTo("WIN J22")
         assertThat(fechamentoAtual.prazo).isEqualTo(PrazoNegociacao.DAYTRADE)
         assertThat(fechamentoAtual.quantidade).isEqualTo(6)
